@@ -210,7 +210,7 @@ export default function LandrianPage() {
                   {/* Quote Text Section */}
                   <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: { xs: 'center', md: 'left' }, borderLeft: { md: '2px solid rgba(252, 191, 73, 0.3)' }, pl: { md: 3 } }}>
                     <Typography variant="h6" sx={{ fontStyle: 'italic', fontFamily: cleanFont, fontWeight: 300, mb: 1, fontSize: '1.1rem' }}>
-                      "{quotes[currentQuoteIndex]?.split(' - ')[0] || "Loading wisdom..."}"
+                      &quot;{quotes[currentQuoteIndex]?.split(' - ')[0] || 'Loading wisdom...'}&quot;
                     </Typography>
                     <Typography variant="caption" sx={{ color: '#003049', fontWeight: 'bold', bgcolor: '#fcbf49', px: 1, py: 0.2, borderRadius: '4px', alignSelf: { xs: 'center', md: 'flex-start' } }}>
                       - {quotes[currentQuoteIndex]?.split(' - ')[1] || "System"}
