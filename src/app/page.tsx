@@ -256,17 +256,120 @@ export default function Lobby() {
         </Box>
 
         <Grid container spacing={6} justifyContent="center">
-          {players.map((player) => (
+          {/* Column 1: Landrian and Vanessa stacked vertically */}
+          <Grid item xs={12} sm={6} md={5}>
+            <Grid container spacing={4} direction="column">
+              {players.filter(p => p.name === 'Landrian' || p.name === 'Vanessa').map((player) => (
+                <Grid item key={player.name}>
+                  <Card
+                    sx={{
+                      height: '100%',
+                      background: globalChaosMode ? '#111' : 'rgba(255, 255, 255, 0.03)',
+                      backdropFilter: 'blur(20px)',
+                      border: globalChaosMode ? '2px solid red' : `1px solid ${alpha(player.color, 0.3)}`,
+                      borderRadius: '24px',
+                      overflow: 'visible',
+                      transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                      cursor: 'pointer',
+                      position: 'relative',
+                      transform: globalChaosMode ? `rotate(${Math.random() * 20 - 10}deg)` : 'none',
+                      '&:hover': {
+                        transform: globalChaosMode ? `rotate(${Math.random() * 20 - 10}deg)` : 'translateY(-12px)',
+                        background: `linear-gradient(135deg, ${alpha(player.color, 0.1)} 0%, ${alpha(player.color, 0.05)} 100%)`,
+                        border: `1px solid ${player.color}`,
+                        boxShadow: `0 20px 50px -10px ${alpha(player.color, 0.3)}`,
+                        '& .play-button': {
+                           transform: 'scale(1.1)',
+                           background: player.color,
+                           color: '#fff',
+                           boxShadow: `0 0 20px ${alpha(player.color, 0.6)}`
+                        }
+                      },
+                    }}
+                  >
+                    <CardContent sx={{ p: 5, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
+                      <Box 
+                        sx={{
+                          mb: 3,
+                          p: 2,
+                          borderRadius: '50%',
+                          background: alpha(player.color, 0.1),
+                          color: player.color,
+                          display: 'inline-flex',
+                        }}
+                      >
+                        {globalChaosMode ? <ErrorOutline sx={{ fontSize: 40, color: 'red' }} /> : player.icon}
+                      </Box>
+                      
+                      <Typography
+                        variant="h3"
+                        sx={{
+                          color: globalChaosMode ? 'red' : '#eae2b7',
+                          mb: 1,
+                          fontFamily: 'var(--font-permanent-marker)',
+                          letterSpacing: '1px',
+                        }}
+                      >
+                        {globalChaosMode ? "UNKNOWN" : player.name}
+                      </Typography>
+                      
+                      <Typography
+                        variant="body1"
+                        sx={{
+                          color: alpha('#eae2b7', 0.7),
+                          mb: 4,
+                          lineHeight: 1.6,
+                          fontSize: '1.1rem',
+                          fontFamily: 'var(--font-outfit)',
+                          flexGrow: 1,
+                        }}
+                      >
+                         {globalChaosMode ? "??? ?? ?????? ????" : player.description}
+                      </Typography>
+
+                      <Link href={player.route} style={{ textDecoration: 'none', width: '100%' }}>
+                        <Button
+                          className="play-button"
+                          variant="contained"
+                          fullWidth
+                          endIcon={globalChaosMode ? <WarningAmber /> : <PlayArrow />}
+                          sx={{
+                            bgcolor: globalChaosMode ? 'red' : 'rgba(255,255,255,0.1)',
+                            color: globalChaosMode ? 'black' : player.color,
+                            borderRadius: '12px',
+                            py: 1.5,
+                            fontSize: '1rem',
+                            fontWeight: 600,
+                            textTransform: 'none',
+                            border: globalChaosMode ? '2px solid black' : `1px solid ${alpha(player.color, 0.2)}`,
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                               bgcolor: player.color,
+                            }
+                          }}
+                        >
+                           {globalChaosMode ? "ENTER AT RISK" : "Enter World"}
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+
+          {/* Column 2: Template card in same row as Landrian */}
+          {players.filter(p => p.name === 'Template').map((player) => (
             <Grid 
               item xs={12} sm={6} md={5} key={player.name}
               sx={{
                 transform: globalChaosMode ? `rotate(${Math.random() * 20 - 10}deg)` : 'none',
-                transition: 'all 0.5s ease'
+                transition: 'all 0.5s ease',
+                alignSelf: 'flex-start'
               }}
             >
               <Card
                 sx={{
-                  height: '100%',
                   background: globalChaosMode ? '#111' : 'rgba(255, 255, 255, 0.03)',
                   backdropFilter: 'blur(20px)',
                   border: globalChaosMode ? '2px solid red' : `1px solid ${alpha(player.color, 0.3)}`,
