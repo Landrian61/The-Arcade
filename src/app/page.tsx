@@ -2,7 +2,8 @@
 
 import { useArcadeStore } from '@/store/useArcadeStore'
 import { Box, Container, Typography, Card, CardContent, Button, Grid, Chip, useTheme, alpha } from '@mui/material'
-import { PlayArrow, Settings, SportsEsports, RocketLaunch, ErrorOutline, WarningAmber, AutoStories, BugReport } from '@mui/icons-material'
+
+import { PlayArrow, Settings, SportsEsports, RocketLaunch, ErrorOutline, WarningAmber, AutoAwesome } from '@mui/icons-material'
 import Link from 'next/link'
 import { keyframes } from '@mui/system'
 import { useState, useEffect } from 'react'
@@ -59,6 +60,7 @@ const players = [
     icon: <RocketLaunch sx={{ fontSize: 40 }} />
   },
   {
+<<<<<<< HEAD
     name: 'Chrisppa',
     route: '/playground/chrisppa',
     description: 'The Shopping Book',
@@ -71,6 +73,13 @@ const players = [
     description: 'The face of Backend.',
     color: '#f77f00',
     icon: <RocketLaunch sx={{ fontSize: 40 }} />
+=======
+    name: 'Vanessa',
+    route: '/playground/vanessa',
+    description: 'Digital Dimension Explorer & Cosmic Code Alchemist',
+    color: '#fcbf49',
+    icon: <AutoAwesome sx={{ fontSize: 40 }} />
+>>>>>>> 7c43829 (feat: Add new Vanessa page with interactive particle system, animations, and enhanced UI components. Update lobby to include new player and card features, improving overall user experience.)
   },
 ]
 
