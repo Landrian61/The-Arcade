@@ -120,12 +120,12 @@ export default function Page() {
                     </a>
                   </>
                 ) : ' No estimate'}
-                {estItem.candidates.length > 1 && (
+                {estItem.candidates?.length > 1 && (
                   <button onClick={() => toggleExpand(estItem.id)} className="ml-2 text-sm">
                     {expandedItems.has(estItem.id) ? 'Hide' : 'Show'} options
                   </button>
                 )}
-                {expandedItems.has(estItem.id) && (
+                {expandedItems.has(estItem.id) && estItem.candidates && (
                   <ul className="ml-4 text-sm space-y-1">
                     {estItem.candidates.map((cand, idx) => (
                       <li key={idx}>
