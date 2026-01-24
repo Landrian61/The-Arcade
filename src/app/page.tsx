@@ -2,7 +2,7 @@
 
 import { useArcadeStore } from '@/store/useArcadeStore'
 import { Box, Container, Typography, Card, CardContent, Button, Grid, Chip, useTheme, alpha } from '@mui/material'
-import { PlayArrow, Settings, SportsEsports, RocketLaunch, ErrorOutline, WarningAmber } from '@mui/icons-material'
+import { PlayArrow, Settings, SportsEsports, RocketLaunch, ErrorOutline, WarningAmber, AutoStories } from '@mui/icons-material'
 import Link from 'next/link'
 import { keyframes } from '@mui/system'
 import { useState, useEffect } from 'react'
@@ -50,6 +50,13 @@ const players = [
     description: 'Your Canvas Awaits. Copy to Start.',
     color: '#f77f00',
     icon: <RocketLaunch sx={{ fontSize: 40 }} />
+  },
+  {
+    name: 'Chrisppa',
+    route: '/playground/chrisppa',
+    description: 'My Diary.',
+    color: '#f77f00',
+    icon: <AutoStories sx={{ fontSize: 40 }} />
   },
 ]
 
