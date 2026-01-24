@@ -1,11 +1,5 @@
 import { create } from "zustand";
-
-// Types
-export interface ShoppingItem {
-  id: number;
-  text: string;
-  checked: boolean;
-}
+import type { ShoppingItem, EstimateResult, ShoppingPrefs } from "@/types/shopping";
 
 export interface ShoppingListStore {
   title: string;
@@ -16,6 +10,14 @@ export interface ShoppingListStore {
   clear: () => void;
   setTitle: (title: string) => void;
   setItems: (items: ShoppingItem[]) => void;
+
+  // Price estimate state
+  estimating: boolean;
+  estimateResult: EstimateResult | null;
+  estimateError: string | null;
+  prefs: ShoppingPrefs;
+  setPrefs: (partial: Partial<ShoppingPrefs>) => void;
+  estimatePrices: () => Promise<void>;
 }
 
 const defaultItems: ShoppingItem[] = [
@@ -55,6 +57,30 @@ export const useShoppingList = create<ShoppingListStore>((set, get) => ({
   clear: () => set({ items: [] }),
   setTitle: (title: string) => set({ title }),
   setItems: (items: ShoppingItem[]) => set({ items }),
+
+  // Estimates
+  estimating: false,
+  estimateResult: null,
+  estimateError: null,
+  prefs: { currency: "USD", country: "US", stores: ["google"] },
+  setPrefs: (partial) => set({ prefs: { ...get().prefs, ...partial } }),
+  estimatePrices: async () => {
+    set({ estimating: true, estimateError: null });
+    try {
+      const res = await fetch("/api/price-estimates", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: get().items, prefs: get().prefs }),
+      });
+      if (!res.ok) throw new Error("Failed to fetch estimates");
+      const data: EstimateResult = await res.json();
+      set({ estimateResult: data });
+    } catch (err) {
+      set({ estimateError: (err as Error).message || "Unknown error" });
+    } finally {
+      set({ estimating: false });
+    }
+  },
 }));
 
 export default useShoppingList;
