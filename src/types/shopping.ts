@@ -39,8 +39,8 @@ export interface EstimateResult {
 }
 
 export interface ShoppingPrefs {
-  currency: string; // e.g., 'USD', 'UGX'
-  country?: string; // e.g., 'US', 'UG'
-  stores?: string[]; // e.g., ['google', 'amazon']
+  currency: string;
+  country?: string;
+  stores?: string[];
 }
 
