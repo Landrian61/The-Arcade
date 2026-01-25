@@ -54,8 +54,8 @@ const players = [
   {
     name: 'Chrisppa',
     route: '/playground/chrisppa',
-    description: 'My Diary.',
-    color: '#f77f00',
+    description: 'The Shopping Book',
+    color: '#C16753',
     icon: <AutoStories sx={{ fontSize: 40 }} />
   },
 ]
