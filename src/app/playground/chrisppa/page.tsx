@@ -41,7 +41,7 @@ export default function Page() {
       <div className="fixed z-20 inline-block top-32 left-[500px]">
         <RoughNotation type="highlight" color="white" show padding={4}>
           <span className={`text-2xl ${caveat.className} font-semibold`}>
-            Shopping List
+            Plan your shopping
           </span>
         </RoughNotation>
       </div>
@@ -95,7 +95,7 @@ export default function Page() {
         disabled={estimating || items.length === 0}
         className={`absolute z-20 left-[500px] bottom-40 ${caveat.className} px-4 py-1 text-lg tracking-wide text-[#6b4226] border-none cursor-pointer select-none hover:text-white hover:bg-[#9D4839] ${estimating ? "opacity-50 cursor-not-allowed" : ""}`}
       >
-        {estimating ? "Estimating..." : "Estimate prices with AI"}
+        {estimating ? "Estimating..." : "Click to estimate prices"}
       </button>
 
       {estimateError && (
