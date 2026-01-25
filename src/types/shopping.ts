@@ -42,5 +42,18 @@ export interface ShoppingPrefs {
   currency: string;
   country?: string;
   stores?: string[];
+  location?: string;
 }
 
+export interface NormalizedResponse {
+  items: Array<{
+    id: number;
+    normalized: {
+      name: string;
+      quantity: number;
+      unit: string;
+      notes?: string;
+    };
+    search_query: string;
+  }>;
+}
