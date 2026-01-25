@@ -6,7 +6,7 @@ import { useState, FormEvent } from "react";
 import { useShoppingList } from "@/store/useShoppingList";
 import type { EstimatedItem } from "@/types/shopping";
 
-const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"]});
+const caveat = Caveat({ subsets: ["latin"], weight: ["400", "700"] });
 
 export default function Page() {
   const items = useShoppingList((s) => s.items);
@@ -31,7 +31,8 @@ export default function Page() {
 
   const toggleExpand = (id: number) => {
     const next = new Set(expandedItems);
-    if (next.has(id)) next.delete(id); else next.add(id);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
     setExpandedItems(next);
   };
 
@@ -44,7 +45,7 @@ export default function Page() {
           </span>
         </RoughNotation>
       </div>
-      
+
       <Image
         src="/images/book.png"
         alt="Vintage notebook"
@@ -58,7 +59,7 @@ export default function Page() {
             <li
               key={item.id}
               onClick={() => toggleItemInList(item.id)}
-              className={`${caveat.className} text-xl cursor-pointer select-none ${item.checked ? 'line-through opacity-60' : ''}`}
+              className={`${caveat.className} text-xl cursor-pointer select-none ${item.checked ? "line-through opacity-60" : ""}`}
               title="Click to toggle"
             >
               {item.text}
@@ -92,13 +93,15 @@ export default function Page() {
       <button
         onClick={estimatePrices}
         disabled={estimating || items.length === 0}
-        className={`absolute z-20 left-[500px] bottom-40 ${caveat.className} px-4 py-1 text-lg tracking-wide text-[#6b4226] border-none cursor-pointer select-none hover:text-white hover:bg-[#9D4839] ${estimating ? 'opacity-50 cursor-not-allowed' : ''}`}
+        className={`absolute z-20 left-[500px] bottom-40 ${caveat.className} px-4 py-1 text-lg tracking-wide text-[#6b4226] border-none cursor-pointer select-none hover:text-white hover:bg-[#9D4839] ${estimating ? "opacity-50 cursor-not-allowed" : ""}`}
       >
-        {estimating ? 'Estimating...' : 'Estimate prices with AI'}
+        {estimating ? "Estimating..." : "Estimate prices with AI"}
       </button>
 
       {estimateError && (
-        <div className={`absolute z-10 left-[500px] bottom-20 text-red-600 ${caveat.className} text-lg`}>
+        <div
+          className={`absolute z-10 left-[500px] bottom-20 text-red-600 ${caveat.className} text-lg`}
+        >
           Error: {estimateError}
         </div>
       )}
@@ -106,30 +109,63 @@ export default function Page() {
       {estimateResult && (
         <div className="absolute z-10 left-[1050px] top-40 w-[420px] leading-8">
           <div className="absolute z-20 inline-block -top-8 -left-4">
-            <span className={`text-2xl ${caveat.className} font-semibold`}>Price Estimates</span>
+            <span className={`text-2xl ${caveat.className} font-semibold`}>
+              Price Estimates
+            </span>
           </div>
           <ul className="list-disc list-inside space-y-2 mt-4">
             {estimateResult.items.map((estItem: EstimatedItem) => (
               <li key={estItem.id} className={`${caveat.className} text-xl`}>
-                {estItem.normalized.name} ({estItem.normalized.quantity} {estItem.normalized.unit}):
+                {estItem.normalized.name} ({estItem.normalized.quantity}{" "}
+                {estItem.normalized.unit}):
                 {estItem.best ? (
                   <>
-                    {' '}{estItem.estimatedPrice?.toFixed(2)} {estimateResult.currency}
-                    <a href={estItem.best.url} target="_blank" rel="noopener noreferrer" className="ml-2 text-blue-600 underline">
+                    {" "}
+                    {estItem.estimatedPrice?.toFixed(2)}{" "}
+                    {estimateResult.currency}
+                    <a
+                      href={estItem.best.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="ml-2 text-blue-600 underline"
+                    >
                       Buy on {estItem.best.source}
                     </a>
                   </>
-                ) : ' No estimate'}
+                ) : (
+                  " No estimate"
+                )}
                 {estItem.candidates?.length > 1 && (
-                  <button onClick={() => toggleExpand(estItem.id)} className="ml-2 text-sm">
-                    {expandedItems.has(estItem.id) ? 'Hide' : 'Show'} options
+                  <button
+                    onClick={() => toggleExpand(estItem.id)}
+                    aria-expanded={expandedItems.has(estItem.id)}
+                    title={
+                      expandedItems.has(estItem.id)
+                        ? "Tuck the alternatives away"
+                        : "Peek at other shop options"
+                    }
+                    className={`ml-2 px-3 py-0.5 text-sm rounded-md border border-[#d9c6a5]
+                      bg-[#f5e6c8]/90 text-[#6b4226] shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_1px_3px_rgba(0,0,0,0.2)]
+                      hover:bg-[#f0e0be] hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 cursor-pointer select-none ${caveat.className}`}
+                  >
+                    {expandedItems.has(estItem.id)
+                      ? "Tuck the alternatives away"
+                      : "Peek at other shop options"}
                   </button>
                 )}
                 {expandedItems.has(estItem.id) && estItem.candidates && (
                   <ul className="ml-4 text-sm space-y-1">
                     {estItem.candidates.map((cand, idx) => (
                       <li key={idx}>
-                        {cand.title}: {cand.price.toFixed(2)} {cand.currency} - <a href={cand.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">Buy</a>
+                        {cand.title}: {cand.price.toFixed(2)} {cand.currency} -{" "}
+                        <a
+                          href={cand.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 underline"
+                        >
+                          Buy
+                        </a>
                       </li>
                     ))}
                   </ul>
@@ -138,13 +174,28 @@ export default function Page() {
             ))}
           </ul>
           <div className="mt-6">
-            <p className={`${caveat.className} text-lg`}>Subtotal: {estimateResult.subtotal.toFixed(2)} {estimateResult.currency}</p>
-            <p className={`${caveat.className} text-lg`}>Fees (est.): {estimateResult.fees?.toFixed(2) ?? 'N/A'} {estimateResult.currency}</p>
-            <p className={`${caveat.className} text-xl font-bold`}>Total: {estimateResult.total.toFixed(2)} {estimateResult.currency}</p>
+            <p className={`${caveat.className} text-lg`}>
+              Subtotal: {estimateResult.subtotal.toFixed(2)}{" "}
+              {estimateResult.currency}
+            </p>
+            <p className={`${caveat.className} text-lg`}>
+              Fees (est.): {
+                (
+                  estimateResult.fees != null && estimateResult.fees < estimateResult.total
+                    ? estimateResult.fees
+                    : Math.max(0, estimateResult.total - estimateResult.subtotal)
+                ).toFixed(2)
+              } {estimateResult.currency}
+            </p>
+            <p className={`${caveat.className} text-xl font-bold`}>
+              Total: {estimateResult.total.toFixed(2)} {estimateResult.currency}
+            </p>
             {estimateResult.notes && (
-              <ul className="text-sm list-disc list-inside mt-2">
-                {estimateResult.notes.map((note, idx) => <li key={idx}>{note}</li>)}
-              </ul>
+                <ul className={`text-sm text-[#6b4226] list-disc list-inside mt-2 bg-[#f5e6c8]/60 mr-9 ${caveat.className}`}>
+                  {estimateResult.notes.map((note, idx) => (
+                    <li key={idx}>{note}</li>
+                  ))}
+                </ul>
             )}
           </div>
         </div>
