@@ -19,7 +19,7 @@ interface ShoppingListStore {
 
 export const useShoppingList = create<ShoppingListStore>((set, get) => ({
   items: [{ id: 1, text: "Yellow Bananas", checked: false }],
-  prefs: { currency: "USD", country: "US" },
+  prefs: { currency: "UGX", country: "UG" },
   estimating: false,
   estimateResult: null,
   estimateError: null,
@@ -42,9 +42,11 @@ export const useShoppingList = create<ShoppingListStore>((set, get) => ({
   estimatePrices: async () => {
     set({ estimating: true, estimateError: null });
     try {
+      // Filter out checked items before sending
+      const uncheckedItems = get().items.filter((it) => !it.checked);
       const res = await fetch("/api/price-estimates", {
         method: "POST",
-        body: JSON.stringify({ items: get().items, prefs: get().prefs }),
+        body: JSON.stringify({ items: uncheckedItems, prefs: get().prefs }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
