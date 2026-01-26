@@ -1,8 +1,19 @@
 import { GoogleGenAI } from "@google/genai";
 import type { NormalizedResponse, ShoppingItem, ShoppingPrefs } from "@/types/shopping";
 
-// Initialize the gemini client
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+// Initialize the gemini client lazily to avoid build-time errors
+let ai: GoogleGenAI | null = null;
+
+function getGeminiClient(): GoogleGenAI {
+  if (!ai) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY environment variable is not set");
+    }
+    ai = new GoogleGenAI({ apiKey });
+  }
+  return ai;
+}
 
 const schema = {
   type: "object",
@@ -45,7 +56,8 @@ export async function normalizeItemsWithGemini(
     Return only JSON matching the schema.
   `;
 
-  const response = await ai.models.generateContent({
+  const client = getGeminiClient();
+  const response = await client.models.generateContent({
     model: "gemini-3-flash-preview",
     contents: [{ role: "user", parts: [{ text: prompt }] }],
     config: {
