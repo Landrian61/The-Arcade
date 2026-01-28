@@ -58,6 +58,13 @@ const players = [
     color: '#C16753',
     icon: <AutoStories sx={{ fontSize: 40 }} />
   },
+  {
+    name: 'JOSHUA',
+    route: '/playground/joshua',
+    description: 'The face of Backend.',
+    color: '#f77f00',
+    icon: <RocketLaunch sx={{ fontSize: 40 }} />
+  },
 ]
 
 export default function Lobby() {
