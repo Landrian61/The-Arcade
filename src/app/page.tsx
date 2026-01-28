@@ -2,7 +2,7 @@
 
 import { useArcadeStore } from '@/store/useArcadeStore'
 import { Box, Container, Typography, Card, CardContent, Button, Grid, Chip, useTheme, alpha } from '@mui/material'
-import { PlayArrow, Settings, SportsEsports, RocketLaunch, ErrorOutline, WarningAmber, AutoStories } from '@mui/icons-material'
+import { PlayArrow, Settings, SportsEsports, RocketLaunch, ErrorOutline, WarningAmber, AutoStories, BugReport } from '@mui/icons-material'
 import Link from 'next/link'
 import { keyframes } from '@mui/system'
 import { useState, useEffect } from 'react'
@@ -37,6 +37,13 @@ const scanline = keyframes`
 
 // Components
 const players = [
+  {
+    name: 'Trevor',
+    route: '/playground/trevor',
+    description: 'Debug the invasion! Classic retro shooter.',
+    color: '#00ff00',
+    icon: <BugReport sx={{ fontSize: 40 }} />
+  },
   {
     name: 'Landrian',
     route: '/playground/landrian',
