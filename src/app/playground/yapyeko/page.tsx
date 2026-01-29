@@ -487,7 +487,7 @@ export default function YapyekoPage() {
           }}
         >
           <Typography sx={{ color: '#fcbf49', fontWeight: 600, mb: 1 }}>
-            📜 Adventurer's Tips
+            📜 Adventurer&apos;s Tips
           </Typography>
           <Typography sx={{ color: alpha('#eae2b7', 0.7), fontSize: '0.9rem' }}>
             • Drink 8 glasses of water daily for maximum HP regeneration<br />
