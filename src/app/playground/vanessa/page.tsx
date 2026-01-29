@@ -100,6 +100,8 @@ const matrixRain = keyframes`
   100% { transform: translateY(100vh); opacity: 0; }
 `
 
+const PARTICLE_COLORS = ['#fcbf49', '#f77f00', '#d62828', '#003049', '#eae2b7']
+
 // ========== PARTICLE SYSTEM ==========
 interface Particle {
   x: number
@@ -123,8 +125,6 @@ export default function VanessaPage() {
   const [energyLevel, setEnergyLevel] = useState(0)
   const animationFrameRef = useRef<number>()
 
-  const colors = ['#fcbf49', '#f77f00', '#d62828', '#003049', '#eae2b7']
-
   // Initialize particles
   useEffect(() => {
     const newParticles: Particle[] = []
@@ -135,7 +135,7 @@ export default function VanessaPage() {
         vx: (Math.random() - 0.5) * 0.5,
         vy: (Math.random() - 0.5) * 0.5,
         size: Math.random() * 3 + 1,
-        color: colors[Math.floor(Math.random() * colors.length)],
+        color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
         life: Math.random(),
         maxLife: Math.random() * 100 + 50
       })
@@ -247,7 +247,7 @@ export default function VanessaPage() {
         vx: (Math.random() - 0.5) * 10,
         vy: (Math.random() - 0.5) * 10,
         size: Math.random() * 4 + 2,
-        color: colors[Math.floor(Math.random() * colors.length)],
+        color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
         life: 0,
         maxLife: 30
       })

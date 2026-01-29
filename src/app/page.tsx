@@ -2,7 +2,7 @@
 
 import { useArcadeStore } from '@/store/useArcadeStore'
 import { Box, Container, Typography, Card, CardContent, Button, Grid, Chip, useTheme, alpha } from '@mui/material'
-import { PlayArrow, Settings, SportsEsports, RocketLaunch, ErrorOutline, WarningAmber, AutoStories, BugReport, AutoAwesome } from '@mui/icons-material'
+import { PlayArrow, Settings, SportsEsports, RocketLaunch, ErrorOutline, WarningAmber, AutoStories, BugReport, AutoAwesome, Science } from '@mui/icons-material'
 import Link from 'next/link'
 import { keyframes } from '@mui/system'
 import { useState, useEffect } from 'react'
@@ -78,6 +78,13 @@ const players = [
     description: 'Digital Dimension Explorer & Cosmic Code Alchemist',
     color: '#fcbf49',
     icon: <AutoAwesome sx={{ fontSize: 40 }} />
+  },
+  {
+    name: 'Yapyeko',
+    route: '/playground/yapyeko',
+    description: 'Potion Inventory - Coffee & Water Tracker',
+    color: '#00b4d8',
+    icon: <Science sx={{ fontSize: 40 }} />
   },
 ]
 
