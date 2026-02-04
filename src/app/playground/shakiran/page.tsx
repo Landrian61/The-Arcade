@@ -20,86 +20,137 @@ export default function ShakiranPlayground() {
         minHeight: '100vh',
         width: '100vw',
         position: 'relative',
-        overflow: 'hidden',
+        overflowX: 'hidden', // Allow vertical scroll, hide horizontal
+        overflowY: 'auto',
         color: '#fff',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: 2, // Reduced from 4
+        gap: 2 // Reduced from 4
       }}
-      onClick={() => selectComponent(null)} // Click background to deselect
     >
       <Background />
 
-      {/* Back to Arcade - Bottom Left */}
-      <Box sx={{ position: 'absolute', bottom: 40, left: 40, zIndex: 20 }}>
-        <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            opacity: 0.7,
-            transition: 'opacity 0.3s',
-            '&:hover': { opacity: 1 }
-          }}>
-            <ArrowBack fontSize="small" />
-            <Typography variant="caption">BACK TO ARCADE</Typography>
-          </Box>
-        </Link>
-      </Box>
-
-      {/* Title - Centered Top */}
+      {/* Header Section - Natural Flow */}
       <Box sx={{
-        position: 'absolute',
-        top: 40,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 20,
-        textAlign: 'center'
+        zIndex: 10,
+        textAlign: 'left', // Left align
+        mt: 1,
+        width: '100%',
+        maxWidth: '1200px', // Constrain width to align with content
+        alignSelf: 'center',
+        pl: { xs: 2, md: 4 }
       }}>
         <Typography variant="h2" sx={{
           fontFamily: 'var(--font-permanent-marker)',
           textShadow: '0 4px 20px rgba(0,0,0,0.5)',
-          mb: 0
+          whiteSpace: 'nowrap',
+          mb: 1,
+          fontSize: { xs: '2rem', md: '3rem' }
         }}>
           Shakiran&apos;s Design Garden
         </Typography>
+
+        {/* Subtitle with container */}
+        <Box sx={{
+          display: 'inline-block',
+          padding: '8px 20px', // Reduced from 12px 32px
+          borderRadius: '16px', // Reduced from 30px
+          background: 'linear-gradient(135deg, rgba(252, 191, 73, 0.9) 0%, rgba(247, 127, 0, 0.9) 100%)',
+          boxShadow: '0 4px 15px rgba(252, 191, 73, 0.3)', // Changed shadow
+          maxWidth: '800px',
+          mb: 1 // Added margin bottom
+        }}>
+          <Typography variant="body2" sx={{ // Changed variant from h6 to body2
+            fontFamily: 'var(--font-outfit)',
+            fontWeight: 'bold',
+            color: '#31004a',
+            fontSize: { xs: '0.8rem', md: '0.9rem' }, // Smaller text
+            lineHeight: 1.4
+          }}>
+            A living interface system where components grow, evolve, and share state.
+          </Typography>
+        </Box>
       </Box>
 
-      {/* Main Interactive Area */}
-      <GardenBed>
-        <Box sx={{
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-          zIndex: 10
-        }}>
-          {/* Plants */}
-          {components.map(comp => (
-            <GardenPlant key={comp.id} component={comp} />
-          ))}
-
-          {/* Context Bubble */}
-          <PreviewBubble />
-        </Box>
-      </GardenBed>
-
-      {/* Character Anchor */}
-      <Character />
-
-      {/* Subtitle - Below Character */}
+      {/* Main Content Layout - Grid/Flex */}
       <Box sx={{
-        position: 'fixed',
-        right: '5%',
-        bottom: '5%',
-        zIndex: 50,
-        textAlign: 'center',
-        maxWidth: '300px'
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 2, // Reduced from 4
+        width: '100%',
+        maxWidth: '1600px',
+        margin: '0 auto',
+        flexGrow: 1,
+        zIndex: 10,
+        py: 2 // Reduced from 4
       }}>
-        <Typography variant="body1" sx={{
-          fontFamily: 'var(--font-outfit)',
-          opacity: 0.9,
-          color: '#fff',
-          textShadow: '0 2px 10px rgba(0,0,0,0.5)'
+
+        {/* Garden and Character Row */}
+        <Box sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', lg: 'row' },
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 3, // Reduced from 8
+          width: '100%'
         }}>
-          A living interface system where components grow, evolve, and share state.
-        </Typography>
+          {/* Garden Container */}
+          <GardenBed>
+            <Box sx={{
+              position: 'relative',
+              width: '100%',
+              height: '100%',
+              zIndex: 10
+            }}>
+              {components.map(comp => (
+                <GardenPlant key={comp.id} component={comp} />
+              ))}
+            </Box>
+          </GardenBed>
+
+          {/* Character with Back Button */}
+          <Box sx={{
+            flexShrink: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 2,
+            mt: { xs: 0, lg: -16 } // Move character up on desktop to avoid collision
+          }}>
+            <Character />
+
+            {/* Back to Arcade Button */}
+            <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Box sx={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 1,
+                padding: '10px 20px',
+                background: 'linear-gradient(135deg, #4c00a4 0%, #31004a 100%)',
+                borderRadius: '16px',
+                border: '1px solid rgba(255,255,255,0.1)',
+                transition: 'transform 0.2s, background 0.2s',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                '&:hover': {
+                  transform: 'translateY(-2px)',
+                  background: 'linear-gradient(135deg, #5d00c8 0%, #420063 100%)'
+                }
+              }}>
+                <ArrowBack fontSize="small" />
+                <Typography variant="button" sx={{ fontWeight: 'bold', letterSpacing: 1, fontSize: '0.85rem' }}>
+                  Back to Arcade
+                </Typography>
+              </Box>
+            </Link>
+          </Box>
+        </Box>
+
+        {/* Component Details Panel - Appears below when component is selected */}
+        <PreviewBubble />
+
       </Box>
 
     </Box>

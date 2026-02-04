@@ -33,7 +33,7 @@ const INITIAL_COMPONENTS: GardenComponent[] = [
         name: 'Action Button',
         type: 'button',
         isPublished: true,
-        position: { x: 20, y: 50 },
+        position: { x: 30, y: 70 }, // Bottom Left
         versions: [
             { id: 'v1.0', name: 'v1.0 (Solid)', variant: 'contained' },
             { id: 'v1.1', name: 'v1.1 (Soft)', variant: 'soft' },
@@ -45,7 +45,7 @@ const INITIAL_COMPONENTS: GardenComponent[] = [
         name: 'Status Badge',
         type: 'badge',
         isPublished: false,
-        position: { x: 50, y: 45 },
+        position: { x: 65, y: 35 }, // Top Right ish
         versions: [
             { id: 'v1', name: 'Classic', variant: 'contained' },
             { id: 'v2', name: 'Dot Only', variant: 'outlined' },
@@ -56,7 +56,7 @@ const INITIAL_COMPONENTS: GardenComponent[] = [
         name: 'Info Card',
         type: 'card',
         isPublished: true,
-        position: { x: 80, y: 50 },
+        position: { x: 55, y: 65 }, // Middle Bottom
         versions: [
             { id: 'v1', name: 'Elevated', variant: 'contained' },
             { id: 'v2', name: 'Flat', variant: 'outlined' },

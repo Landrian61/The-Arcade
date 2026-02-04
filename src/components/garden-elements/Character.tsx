@@ -7,36 +7,54 @@ import Image from 'next/image'
 const Character = () => {
     const { activeComponentId, isPreviewOpen } = useDesignGardenStore()
 
+    // Dynamic message based on state
+    const getMessage = () => {
+        return "Welcome to my garden! Click a component to explore how it works and see its versions!"
+    }
+
     return (
         <Box
             sx={{
-                position: 'fixed',
-                right: '5%',
-                bottom: '10%',
+                position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                gap: 2,
                 zIndex: 50,
             }}
         >
-            {/* Speech Bubble */}
-            <motion.div
-                animate={{ opacity: 1, y: 0 }}
-                style={{ marginBottom: 20 }}
-            >
-                <Box sx={{
-                    background: '#fff',
-                    color: '#000',
-                    padding: '12px 24px',
-                    borderRadius: '24px 24px 0 24px',
-                    boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
-                    maxWidth: 200,
+            {/* Speech Bubble - Always Visible */}
+            <Box
+                component={motion.div}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                sx={{
+                    position: 'relative',
+                    background: 'rgba(255, 255, 255, 0.95)',
+                    color: '#31004a',
+                    padding: '12px 20px',
+                    borderRadius: '20px',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+                    maxWidth: '250px',
                     textAlign: 'center',
-                    fontFamily: 'var(--font-permanent-marker)',
-                }}>
-                    {activeComponentId ? "That's a great choice! ✨" : "Welcome to the garden."}
-                </Box>
-            </motion.div>
+                    '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        bottom: '-10px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        width: 0,
+                        height: 0,
+                        borderLeft: '10px solid transparent',
+                        borderRight: '10px solid transparent',
+                        borderTop: '10px solid rgba(255, 255, 255, 0.95)',
+                    }
+                }}
+            >
+                <Typography variant="body2" sx={{ fontWeight: 'bold', fontFamily: 'var(--font-outfit)' }}>
+                    {getMessage()}
+                </Typography>
+            </Box>
 
             {/* Character Avatar */}
             <Box
@@ -53,17 +71,6 @@ const Character = () => {
                     width: 300,
                     height: 420,
                     position: 'relative',
-                    '&::after': {
-                        content: '""',
-                        position: 'absolute',
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        height: '100px',
-                        background: 'linear-gradient(to top, rgba(49, 0, 74, 1) 0%, transparent 100%)',
-                        pointerEvents: 'none',
-                        zIndex: 1
-                    }
                 }}
             >
                 {/* Character Image */}

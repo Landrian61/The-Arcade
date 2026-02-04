@@ -1,7 +1,9 @@
+
 import { Box, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
 import { GardenComponent, useDesignGardenStore } from '@/store/useDesignGardenStore'
 import { useArcadeStore } from '@/store/useArcadeStore'
+import { LocalFlorist } from '@mui/icons-material'
 
 interface Props {
     component: GardenComponent
@@ -29,16 +31,15 @@ const PlantIcon = ({ type, isActive, isPublished }: { type: string; isActive: bo
                     width: '100%',
                     height: '100%',
                     borderRadius: '50%',
-                    border: `2px solid ${color}`,
+                    border: `2px solid ${color} `,
                 }}
             />
-            {/* Core dot */}
-            <Box sx={{
-                width: 12,
-                height: 12,
-                bgcolor: color,
-                borderRadius: '50%',
-                boxShadow: `0 0 10px ${color}`,
+            {/* Core Flower */}
+            <LocalFlorist sx={{
+                fontSize: 24,
+                color: color,
+                filter: `drop - shadow(0 0 8px ${color})`,
+                zIndex: 2
             }} />
         </Box>
     )
@@ -66,8 +67,8 @@ const GardenPlant = ({ component }: Props) => {
             }}
             sx={{
                 position: 'absolute',
-                left: `${component.position.x}%`,
-                top: `${component.position.y}%`,
+                left: `${component.position.x}% `,
+                top: `${component.position.y}% `,
                 cursor: 'pointer',
                 zIndex: isActive ? 100 : 5,
             }}

@@ -38,8 +38,8 @@ const Background = () => {
     const icons = [FilterVintage, Yard, Agriculture, Grass, EmojiNature, WaterDrop]
 
     // Generate random particles
-    // Increased count to 80 for more density
-    const particles = Array.from({ length: 80 }).map((_, i) => {
+    // Reduced to 40 for better performance and less visual clutter
+    const particles = Array.from({ length: 40 }).map((_, i) => {
         const IconComponent = icons[i % icons.length]
 
         // Random scatter direction (fly away 100-200px)
@@ -50,7 +50,7 @@ const Background = () => {
 
         return {
             id: i,
-            left: `${Math.random() * 100}%`,
+            left: `${Math.random() * 60 + 40}%`, // Only spawn in the right 60% of the screen (40% - 100%)
             top: `${Math.random() * 100}%`,
             duration: `${20 + Math.random() * 30}s`,
             blinkDuration: `${2 + Math.random() * 4}s`,
