@@ -129,18 +129,23 @@ export default function ShakiranPlayground() {
                 alignItems: 'center',
                 gap: 1,
                 padding: '10px 20px',
-                background: 'linear-gradient(135deg, #4c00a4 0%, #31004a 100%)',
+                background: 'linear-gradient(135deg, #fcbf49 0%, #f77f00 100%)', // Yellow/Orange
                 borderRadius: '16px',
                 border: '1px solid rgba(255,255,255,0.1)',
                 transition: 'transform 0.2s, background 0.2s',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                boxShadow: '0 4px 12px rgba(252, 191, 73, 0.3)',
                 '&:hover': {
                   transform: 'translateY(-2px)',
-                  background: 'linear-gradient(135deg, #5d00c8 0%, #420063 100%)'
+                  background: 'linear-gradient(135deg, #ffd166 0%, #fcbf49 100%)' // Lighter yellow hover
                 }
               }}>
-                <ArrowBack fontSize="small" />
-                <Typography variant="button" sx={{ fontWeight: 'bold', letterSpacing: 1, fontSize: '0.85rem' }}>
+                <ArrowBack fontSize="small" sx={{ color: '#31004a' }} />
+                <Typography variant="button" sx={{
+                  fontWeight: 'bold',
+                  letterSpacing: 1,
+                  fontSize: '0.85rem',
+                  color: '#31004a' // Purple text
+                }}>
                   Back to Arcade
                 </Typography>
               </Box>

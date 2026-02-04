@@ -38,7 +38,7 @@ const PlantIcon = ({ type, isActive, isPublished }: { type: string; isActive: bo
             <LocalFlorist sx={{
                 fontSize: 24,
                 color: color,
-                filter: `drop - shadow(0 0 8px ${color})`,
+                filter: `drop-shadow(0 0 8px ${color})`,
                 zIndex: 2
             }} />
         </Box>

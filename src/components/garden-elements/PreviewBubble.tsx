@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useDesignGardenStore } from '@/store/useDesignGardenStore'
 import { Close, ContentCopy, Download } from '@mui/icons-material'
 import { useState, useEffect, useRef } from 'react'
+import { ZoomScrollHero } from './ui/ZoomScrollHero'
+import { ScrollNavbar } from './ui/ScrollNavbar'
+import { ZOOM_SCROLL_HERO_CODE, SCROLL_NAVBAR_CODE } from './component-codes'
 
 const PreviewBubble = () => {
     const { activeComponentId, components, selectComponent } = useDesignGardenStore()
@@ -27,7 +30,8 @@ const PreviewBubble = () => {
             if (!selectedVersion || !activeComponent.versions.find(v => v.id === selectedVersion)) {
                 setSelectedVersion(activeComponent.versions[0]?.id || '')
             }
-            setShowCode(false) // Reset to preview view when component changes
+            // Show code view for drafts, preview for published
+            setShowCode(!activeComponent.isPublished)
         }
     }, [activeComponent, selectedVersion])
 
@@ -36,6 +40,11 @@ const PreviewBubble = () => {
     // Generate sample code for the component
     const generateCode = () => {
         if (!activeComponent || !currentVersion) return ''
+
+        // Return actual implementation code for complex components
+        if (activeComponent.type === 'hero') return ZOOM_SCROLL_HERO_CODE
+        if (activeComponent.type === 'navbar') return SCROLL_NAVBAR_CODE
+
         const componentName = activeComponent.name.replace(/\s+/g, '')
         return `import { ${componentName} } from '@/components/ui/${activeComponent.type}s'
 
@@ -161,6 +170,35 @@ Status: ${activeComponent.isPublished ? 'Published ✅' : 'Draft 🚧'}
                 </div>
             )
         }
+        if (activeComponent.type === 'hero') {
+            return (
+                <Box sx={{
+                    width: '100%',
+                    height: '500px',
+                    borderRadius: '16px',
+                    position: 'relative',
+                    overflow: 'hidden'
+                }}>
+                    <ZoomScrollHero variant={currentVersion.variant as any} />
+                </Box>
+            )
+        }
+
+        // Navbar component preview
+        if (activeComponent.type === 'navbar') {
+            return (
+                <Box sx={{
+                    width: '100%',
+                    height: '500px',
+                    borderRadius: '16px',
+                    position: 'relative',
+                    overflow: 'hidden'
+                }}>
+                    <ScrollNavbar variant={currentVersion.variant as any} />
+                </Box>
+            )
+        }
+
         return null
     }
 
@@ -298,6 +336,50 @@ Status: ${activeComponent.isPublished ? 'Published ✅' : 'Draft 🚧'}
                                 </Box>
                             </Box>
 
+                            {/* Publish Toggle Button - Controls component visibility status */}
+                            <Box sx={{ mb: 2 }}>
+                                <Button
+                                    fullWidth
+                                    variant={activeComponent.isPublished ? 'contained' : 'outlined'}
+                                    onClick={() => useDesignGardenStore.getState().togglePublish(activeComponent.id)}
+                                    startIcon={activeComponent.isPublished ? <span>✓</span> : <span>○</span>}
+                                    sx={{
+                                        // Published: Purple gradient background
+                                        // Draft: Transparent with purple border
+                                        background: activeComponent.isPublished
+                                            ? 'linear-gradient(135deg, #ab00ff 0%, #8b00d4 100%)'
+                                            : 'transparent',
+                                        color: activeComponent.isPublished ? '#fff' : '#ab00ff',
+                                        border: activeComponent.isPublished ? 'none' : '2px solid #ab00ff',
+                                        fontWeight: 'bold',
+                                        py: 1.2,
+                                        borderRadius: '12px',
+                                        fontFamily: 'var(--font-outfit)',
+                                        '&:hover': {
+                                            background: activeComponent.isPublished
+                                                ? 'linear-gradient(135deg, #c44dff 0%, #ab00ff 100%)'
+                                                : 'rgba(171, 0, 255, 0.1)',
+                                            transform: 'translateY(-2px)',
+                                            boxShadow: '0 4px 15px rgba(171, 0, 255, 0.4)'
+                                        }
+                                    }}
+                                >
+                                    {activeComponent.isPublished ? 'Published' : 'Draft'}
+                                </Button>
+                                <Typography variant="caption" sx={{
+                                    color: 'rgba(255, 255, 255, 0.5)',
+                                    display: 'block',
+                                    mt: 0.5,
+                                    fontSize: '0.7rem',
+                                    textAlign: 'center'
+                                }}>
+                                    {/* Helper text explaining the current state */}
+                                    {activeComponent.isPublished
+                                        ? 'Click to unpublish'
+                                        : 'Click to publish'}
+                                </Typography>
+                            </Box>
+
                             {/* Action Button */}
                             <Button
                                 fullWidth
@@ -333,13 +415,13 @@ Status: ${activeComponent.isPublished ? 'Published ✅' : 'Draft 🚧'}
                                 padding: 4,
                                 border: '2px solid rgba(252, 191, 73, 0.2)',
                                 boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3)',
-                                minHeight: '400px',
+                                minHeight: 'auto',
                                 display: 'flex',
                                 flexDirection: 'column'
                             }}
                         >
                             <Tabs
-                                value={showCode ? 1 : 0}
+                                value={activeComponent.isPublished ? (showCode ? 1 : 0) : 0}
                                 onChange={(_, v) => setShowCode(v === 1)}
                                 sx={{
                                     mb: 3,
@@ -356,11 +438,11 @@ Status: ${activeComponent.isPublished ? 'Published ✅' : 'Draft 🚧'}
                                     }
                                 }}
                             >
-                                <Tab label="Live Preview" />
+                                {activeComponent.isPublished && <Tab label="Live Preview" />}
                                 <Tab label="Code" />
                             </Tabs>
 
-                            {!showCode ? (
+                            {activeComponent.isPublished && !showCode ? (
                                 /* Live Preview */
                                 <Box sx={{
                                     flexGrow: 1,
@@ -384,10 +466,15 @@ Status: ${activeComponent.isPublished ? 'Published ✅' : 'Draft 🚧'}
                                         fontFamily: 'monospace',
                                         fontSize: '0.9rem',
                                         color: '#d4d4d4',
-                                        overflowX: 'auto',
-                                        flexGrow: 1
+                                        overflow: 'auto',      // Enable scrolling
+                                        maxHeight: '300px',    // Limit height
+                                        flexGrow: 1,
+                                        // Custom scrollbar
+                                        '&::-webkit-scrollbar': { width: '8px', height: '8px' },
+                                        '&::-webkit-scrollbar-track': { background: 'rgba(255,255,255,0.05)' },
+                                        '&::-webkit-scrollbar-thumb': { background: 'rgba(255,255,255,0.2)', borderRadius: '4px' }
                                     }}>
-                                        <pre style={{ margin: 0 }}>{generateCode()}</pre>
+                                        <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{generateCode()}</pre>
                                     </Box>
 
                                     <Box sx={{ display: 'flex', gap: 2 }}>

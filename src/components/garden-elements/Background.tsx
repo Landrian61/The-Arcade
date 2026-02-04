@@ -14,7 +14,7 @@ const float = keyframes`
 
 const blink = keyframes`
   0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 0 rgba(0,0,0,0)); }
-  50% { opacity: 1; color: #fcbf49 !important; filter: drop-shadow(0 0 8px #fcbf49); }
+  50% { opacity: 1; color: #fcbf49 !important; filter: drop-shadow(0 0 15px #fcbf49); transform: scale(1.2); }
 `
 
 const glitch = keyframes`
@@ -38,8 +38,8 @@ const Background = () => {
     const icons = [FilterVintage, Yard, Agriculture, Grass, EmojiNature, WaterDrop]
 
     // Generate random particles
-    // Reduced to 40 for better performance and less visual clutter
-    const particles = Array.from({ length: 40 }).map((_, i) => {
+    // Adjusted to 50 for balanced background
+    const particles = Array.from({ length: 50 }).map((_, i) => {
         const IconComponent = icons[i % icons.length]
 
         // Random scatter direction (fly away 100-200px)
@@ -50,14 +50,14 @@ const Background = () => {
 
         return {
             id: i,
-            left: `${Math.random() * 60 + 40}%`, // Only spawn in the right 60% of the screen (40% - 100%)
+            left: `${Math.random() * 50 + 50}%`, // Focus on right side (50% - 100%)
             top: `${Math.random() * 100}%`,
             duration: `${20 + Math.random() * 30}s`,
             blinkDuration: `${2 + Math.random() * 4}s`,
             delay: `${Math.random() * 10}s`,
             size: 20 + Math.random() * 40,
             Icon: IconComponent,
-            color: `rgba(255, 255, 255, ${0.3 + Math.random() * 0.4})`, // Much brighter base
+            color: `rgba(255, 255, 255, ${0.4 + Math.random() * 0.5})`, // Brighter base opacity
             rotation: Math.random() * 360,
             scatterX,
             scatterY
