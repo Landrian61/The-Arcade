@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material'
 import { motion } from 'framer-motion'
 import { useDesignGardenStore } from '@/store/useDesignGardenStore'
 import { Face2 } from '@mui/icons-material'
+import Image from 'next/image'
 
 const Character = () => {
     const { activeComponentId, isPreviewOpen } = useDesignGardenStore()
@@ -20,7 +21,7 @@ const Character = () => {
         >
             {/* Speech Bubble */}
             <motion.div
-                animate={{ opacity: isPreviewOpen ? 1 : 0, y: isPreviewOpen ? 0 : 10 }}
+                animate={{ opacity: 1, y: 0 }}
                 style={{ marginBottom: 20 }}
             >
                 <Box sx={{
@@ -49,46 +50,32 @@ const Character = () => {
                     ease: "easeInOut"
                 }}
                 sx={{
-                    width: 250,
-                    height: 350,
+                    width: 300,
+                    height: 420,
                     position: 'relative',
+                    '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: '100px',
+                        background: 'linear-gradient(to top, rgba(49, 0, 74, 1) 0%, transparent 100%)',
+                        pointerEvents: 'none',
+                        zIndex: 1
+                    }
                 }}
             >
-                {/* Simple Geometric Character Representation (Ghibli-esque style would ideally be an image) */}
-                {/* Here we use a stylized composition */}
-
-                {/* Body/Dress */}
-                <Box sx={{
-                    position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)',
-                    width: 140, height: 200,
-                    background: '#ab00ff',
-                    borderRadius: '80px 80px 0 0',
-                    boxShadow: 'inset -20px 0 40px rgba(0,0,0,0.2)'
-                }} />
-
-                {/* Head */}
-                <Box sx={{
-                    position: 'absolute', top: 30, left: '50%', transform: 'translateX(-50%)',
-                    width: 100, height: 110,
-                    background: '#ffddc1',
-                    borderRadius: '50px',
-                    zIndex: 2,
-                }}>
-                    {/* Eyes */}
-                    <Box sx={{ position: 'absolute', top: 45, left: 25, width: 12, height: 12, borderRadius: '50%', bgcolor: '#000' }} />
-                    <Box sx={{ position: 'absolute', top: 45, right: 25, width: 12, height: 12, borderRadius: '50%', bgcolor: '#000' }} />
-                    {/* Smile */}
-                    <Box sx={{ position: 'absolute', bottom: 30, left: '50%', transform: 'translateX(-50%)', width: 20, height: 10, borderBottom: '3px solid #000', borderRadius: '50%' }} />
-                </Box>
-
-                {/* Hair */}
-                <Box sx={{
-                    position: 'absolute', top: 20, left: '50%', transform: 'translateX(-50%)',
-                    width: 120, height: 120,
-                    background: '#33007b',
-                    borderRadius: '60px 60px 0 0',
-                    zIndex: 1,
-                }} />
+                {/* Character Image */}
+                <Image
+                    src="/images/devkiran.png"
+                    alt="Shakiran Character"
+                    fill
+                    style={{
+                        objectFit: 'contain',
+                        filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))'
+                    }}
+                />
 
             </Box>
 

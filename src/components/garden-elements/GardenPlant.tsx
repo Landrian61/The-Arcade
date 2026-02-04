@@ -8,36 +8,38 @@ interface Props {
 }
 
 // Map component types to simple visual representations (SVG or CSS shapes)
-const PlantIcon = ({ type, isActive }: { type: string; isActive: boolean }) => {
-    const color = isActive ? '#ab00ff' : '#8300c4'
+const PlantIcon = ({ type, isActive, isPublished }: { type: string; isActive: boolean; isPublished: boolean }) => {
+    const color = isActive ? '#ab00ff' : '#fcbf49'
 
-    if (type === 'button') {
-        return (
-            <Box sx={{
-                width: 40, height: 40, borderRadius: '50%', border: `2px solid ${color}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center'
-            }}>
-                <Box sx={{ width: 20, height: 20, bgcolor: color, borderRadius: 1 }} />
-            </Box>
-        )
-    }
-    if (type === 'badge') {
-        return (
-            <Box sx={{
-                width: 40, height: 40, borderRadius: '50%', border: `2px solid ${color}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center'
-            }}>
-                <Box sx={{ width: 10, height: 10, bgcolor: color, borderRadius: '50%' }} />
-            </Box>
-        )
-    }
-    // Default Card Icon
     return (
         <Box sx={{
-            width: 40, height: 40, borderRadius: '50%', border: `2px solid ${color}`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center'
+            position: 'relative',
+            width: 30,
+            height: 30,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
         }}>
-            <Box sx={{ width: 20, height: 14, border: `2px solid ${color}`, borderRadius: 1 }} />
+            {/* Pulsing ring */}
+            <motion.div
+                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0.2, 0.5] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                style={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '50%',
+                    border: `2px solid ${color}`,
+                }}
+            />
+            {/* Core dot */}
+            <Box sx={{
+                width: 12,
+                height: 12,
+                bgcolor: color,
+                borderRadius: '50%',
+                boxShadow: `0 0 10px ${color}`,
+            }} />
         </Box>
     )
 }
@@ -55,10 +57,9 @@ const GardenPlant = ({ component }: Props) => {
             animate={{
                 opacity: 1,
                 scale: 1,
-                y: isActive ? -10 : 0,
-                rotate: globalChaosMode ? [0, -2, 2, 0] : 0
+                y: isActive ? -5 : 0,
             }}
-            transition={{ type: 'spring', damping: 12 }}
+            whileHover={{ scale: 1.2 }}
             onClick={(e: React.MouseEvent) => {
                 e.stopPropagation()
                 selectComponent(isActive ? null : component.id)
@@ -68,8 +69,7 @@ const GardenPlant = ({ component }: Props) => {
                 left: `${component.position.x}%`,
                 top: `${component.position.y}%`,
                 cursor: 'pointer',
-                zIndex: isActive ? 10 : 1,
-                filter: isActive ? 'drop-shadow(0 0 15px rgba(171, 0, 255, 0.6))' : 'none',
+                zIndex: isActive ? 100 : 5,
             }}
         >
             <Box
@@ -77,50 +77,24 @@ const GardenPlant = ({ component }: Props) => {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    gap: 1,
-                    p: 1.5,
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    backdropFilter: 'blur(8px)',
-                    borderRadius: '16px',
-                    border: isActive ? '1px solid #ab00ff' : '1px solid rgba(255,255,255,0.1)',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        transform: 'scale(1.05)'
-                    }
+                    gap: 0.5,
                 }}
             >
-                <PlantIcon type={component.type} isActive={isActive} />
+                <PlantIcon type={component.type} isActive={isActive} isPublished={component.isPublished} />
 
-                <Box sx={{ textAlign: 'center' }}>
-                    <Typography variant="caption" sx={{ color: '#fff', fontWeight: 'bold', display: 'block' }}>
+                <Box sx={{
+                    textAlign: 'center',
+                    background: 'rgba(0,0,0,0.6)',
+                    padding: '2px 8px',
+                    borderRadius: '10px',
+                    backdropFilter: 'blur(4px)',
+                    border: isActive ? '1px solid #ab00ff' : '1px solid transparent'
+                }}>
+                    <Typography variant="caption" sx={{ color: '#fff', fontSize: '0.6rem', fontWeight: 'bold' }}>
                         {component.name}
                     </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, justifyContent: 'center' }}>
-                        <Box sx={{
-                            width: 6, height: 6, borderRadius: '50%',
-                            bgcolor: component.isPublished ? '#00ff00' : '#888'
-                        }} />
-                        <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.65rem' }}>
-                            {component.isPublished ? 'Live' : 'Draft'}
-                        </Typography>
-                    </Box>
                 </Box>
             </Box>
-
-            {/* Stem connection to ground (visual only) */}
-            <Box
-                sx={{
-                    position: 'absolute',
-                    bottom: -50,
-                    left: '50%',
-                    width: 2,
-                    height: 50,
-                    background: `linear-gradient(to top, transparent, ${isActive ? '#ab00ff' : 'rgba(255,255,255,0.2)'})`,
-                    transform: 'translateX(-50%)',
-                    zIndex: -1,
-                }}
-            />
         </Box>
     )
 }
