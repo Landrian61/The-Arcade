@@ -2,7 +2,7 @@
 
 import { useArcadeStore } from '@/store/useArcadeStore'
 import { Box, Container, Typography, Card, CardContent, Button, Grid, Chip, useTheme, alpha } from '@mui/material'
-import { PlayArrow, Settings, SportsEsports, RocketLaunch, ErrorOutline, WarningAmber, AutoStories, BugReport, AutoAwesome, Science } from '@mui/icons-material'
+import { PlayArrow, Settings, SportsEsports, RocketLaunch, ErrorOutline, WarningAmber, AutoStories, BugReport, AutoAwesome, Science, Face2 as Face2Icon } from '@mui/icons-material'
 import Link from 'next/link'
 import { keyframes } from '@mui/system'
 import { useState, useEffect } from 'react'
@@ -85,6 +85,13 @@ const players = [
     description: 'Potion Inventory - Coffee & Water Tracker',
     color: '#00b4d8',
     icon: <Science sx={{ fontSize: 40 }} />
+  },
+    {
+    name: 'Shakiran',
+    route: '/playground/shakiran',
+    description: 'Her Design Garden',
+    color: '#ab00ff',
+    icon: <Face2Icon sx={{ fontSize: 40 }} />
   },
 ]
 
