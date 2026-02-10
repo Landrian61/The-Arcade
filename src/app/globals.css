@@ -52,6 +52,108 @@ body {
   color:red
 }
 
+.nav-pill {
+  @apply
+    px-6 py-2
+    rounded-full
+    text-sm
+    uppercase
+    tracking-widest
+    text-[#f5e6c8]
+    bg-gradient-to-b from-[#6b3a18] to-[#3a1e0d]
+    border border-[#8c5a2b]
+    shadow-[inset_0_1px_0_rgba(255,200,120,0.4),0_2px_6px_rgba(0,0,0,0.8)]
+    cursor-pointer
+    transition-all
+    duration-200
+    select-none;
+}
 
+.nav-pill:hover {
+  @apply
+    bg-gradient-to-b from-[#8c4a20] to-[#4a2512]
+    text-[#fff2d6];
+}
 
+/* Hollow / active */
+.nav-pill-active {
+  @apply
+    bg-transparent
+    text-[#d9c29a]
+    border-[#c9a15a]
+    shadow-[inset_0_3px_6px_rgba(0,0,0,0.9)]
+    ring-1 ring-[#c9a15a]/40;
+}
 
+.movie-card {
+  @apply
+    /* bg-gradient-to-b from-[#6b3a18] to-[#3a1e0d]
+    border border-[#8c5a2b] */
+    rounded-lg
+    /* shadow-[inset_0_3px_6px_rgba(0,0,0,0.9)] */
+    /* ring-1 ring-[#c9a15a]/40 */
+    overflow-hidden
+    w-[300px];
+}
+
+.movie-card-image {
+  @apply
+    w-full
+    h-[200px]
+    overflow-hidden;
+}
+
+.movie-card-image img {
+  @apply
+    w-full
+    h-full
+    object-cover;
+}
+
+.movie-card-content {
+  @apply
+    p-4
+    text-[#f5e6c8];
+}
+
+.movie-card-title {
+  @apply
+    text-xl
+    font-bold
+    text-center
+    text-[#f5e6c8]
+    mb-2;
+}
+
+.movie-card-description {
+  @apply
+    text-sm
+    text-[#d9c29a]
+    mb-4;
+}
+
+.movie-card-button {
+  @apply
+    block
+    w-full
+    text-center
+    px-6 py-2
+    rounded-full
+    text-sm
+    uppercase
+    tracking-widest
+    text-[#f5e6c8]
+    bg-gradient-to-b from-[#8c4a20] to-[#4a2512]
+    border border-[#c9a15a]
+    shadow-[inset_0_1px_0_rgba(255,200,120,0.4),0_2px_6px_rgba(0,0,0,0.8)]
+    cursor-pointer
+    transition-all
+    duration-200
+    select-none;
+}
+
+.movie-card-button:hover {
+  @apply
+    bg-gradient-to-b from-[#a05624] to-[#5e2e16]
+    text-[#fff2d6];
+}
