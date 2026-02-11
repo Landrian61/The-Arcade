@@ -4,6 +4,9 @@ export type Scene = {
     text: string
     duration: number
     color: string
+    icon: string
+    animationStyle: string
+    imageUrl: string
 }
 
 interface Text2ReelState {
