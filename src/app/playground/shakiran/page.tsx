@@ -17,8 +17,10 @@ export default function ShakiranPlayground() {
   const [showIntro, setShowIntro] = useState(true)
   const { components, selectComponent } = useDesignGardenStore()
 
+  const [introInitialView, setIntroInitialView] = useState<'intro' | 'projects'>('intro')
+
   if (showIntro) {
-    return <IntroPage onEnterGarden={() => setShowIntro(false)} />
+    return <IntroPage onEnterGarden={() => setShowIntro(false)} initialView={introInitialView} />
   }
 
   return (
@@ -128,9 +130,14 @@ export default function ShakiranPlayground() {
           }}>
             <Character />
 
-            {/* Back to Arcade Button */}
-            <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <Box sx={{
+            {/* Back to Projects Button */}
+            <Box
+              onClick={() => {
+                setIntroInitialView('projects')
+                setShowIntro(true)
+              }}
+              sx={{
+                cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 1,
@@ -144,18 +151,18 @@ export default function ShakiranPlayground() {
                   transform: 'translateY(-2px)',
                   background: 'linear-gradient(135deg, #ffd166 0%, #fcbf49 100%)' // Lighter yellow hover
                 }
+              }}
+            >
+              <ArrowBack fontSize="small" sx={{ color: '#31004a' }} />
+              <Typography variant="button" sx={{
+                fontWeight: 'bold',
+                letterSpacing: 1,
+                fontSize: '0.85rem',
+                color: '#31004a' // Purple text
               }}>
-                <ArrowBack fontSize="small" sx={{ color: '#31004a' }} />
-                <Typography variant="button" sx={{
-                  fontWeight: 'bold',
-                  letterSpacing: 1,
-                  fontSize: '0.85rem',
-                  color: '#31004a' // Purple text
-                }}>
-                  Back to Arcade
-                </Typography>
-              </Box>
-            </Link>
+                Back to Projects
+              </Typography>
+            </Box>
           </Box>
         </Box>
 

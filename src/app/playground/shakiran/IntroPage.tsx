@@ -8,10 +8,11 @@ import Link from 'next/link'
 
 interface IntroPageProps {
     onEnterGarden: () => void
+    initialView?: 'intro' | 'projects'
 }
 
-export default function IntroPage({ onEnterGarden }: IntroPageProps) {
-    const [view, setView] = useState<'intro' | 'projects'>('intro')
+export default function IntroPage({ onEnterGarden, initialView = 'intro' }: IntroPageProps) {
+    const [view, setView] = useState<'intro' | 'projects'>(initialView)
 
     return (
         <Box sx={{
@@ -55,7 +56,7 @@ export default function IntroPage({ onEnterGarden }: IntroPageProps) {
                                 fontSize: { xs: '2.5rem', md: '3.5rem', lg: '4rem' }
                             }}>
                                 Welcome to <br />
-                                <span style={{ color: '#a78bfa', fontStyle: 'italic' }}>Shakiran's Playground</span>
+                                <span style={{ color: '#a78bfa', fontStyle: 'italic' }}>Shakiran&rsquo;s Playground</span>
                             </Typography>
 
                             <Box sx={{
@@ -194,38 +195,51 @@ export default function IntroPage({ onEnterGarden }: IntroPageProps) {
                                     </Box>
                                 </motion.div>
 
-                                {/* Placeholder for Next Project */}
-                                <motion.div whileHover={{ scale: 1.02, x: 10 }}>
-                                    <Box sx={{
-                                        p: 3,
-                                        borderRadius: '24px',
-                                        border: '1px dashed rgba(255,255,255,0.1)',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 3,
-                                        opacity: 0.6
-                                    }}
-                                    >
+                                {/* Text2Reel Project */}
+                                <motion.div
+                                    whileHover={{ scale: 1.02, x: 10 }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
+                                    <Link href="/playground/shakiran/text2reel" style={{ textDecoration: 'none' }}>
                                         <Box sx={{
-                                            p: 2,
-                                            borderRadius: '16px',
-                                            bgcolor: 'rgba(255,255,255,0.05)',
-                                            color: 'rgba(255,255,255,0.4)',
+                                            p: 3,
+                                            borderRadius: '24px',
+                                            border: '1px solid rgba(247, 127, 0, 0.3)', // Orange border
+                                            bgcolor: 'rgba(15, 23, 42, 0.6)',
+                                            backdropFilter: 'blur(10px)',
+                                            cursor: 'pointer',
                                             display: 'flex',
                                             alignItems: 'center',
-                                            justifyContent: 'center'
+                                            gap: 3,
+                                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                                            transition: 'all 0.3s ease',
+                                            '&:hover': {
+                                                borderColor: '#f77f00',
+                                                boxShadow: '0 0 50px rgba(247, 127, 0, 0.3)',
+                                                bgcolor: 'rgba(247, 127, 0, 0.1)'
+                                            }
                                         }}>
-                                            <SmartToy fontSize="large" />
+                                            <Box sx={{
+                                                p: 2,
+                                                borderRadius: '16px',
+                                                bgcolor: 'rgba(247, 127, 0, 0.2)',
+                                                color: '#f77f00',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
+                                            }}>
+                                                <SmartToy fontSize="large" />
+                                            </Box>
+                                            <Box>
+                                                <Typography variant="h6" sx={{ fontWeight: 700, color: '#fff' }}>
+                                                    Text2Reel
+                                                </Typography>
+                                                <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+                                                    AI-powered social media video generator.
+                                                </Typography>
+                                            </Box>
                                         </Box>
-                                        <Box>
-                                            <Typography variant="h6" sx={{ fontWeight: 700, color: 'rgba(255,255,255,0.4)' }}>
-                                                Coming Soon
-                                            </Typography>
-                                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.4)' }}>
-                                                New experiments in progress...
-                                            </Typography>
-                                        </Box>
-                                    </Box>
+                                    </Link>
                                 </motion.div>
                             </Box>
                         </motion.div>
