@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { Box, Container, Typography } from '@mui/material'
 import { useArcadeStore } from '@/store/useArcadeStore'
 import { useDesignGardenStore } from '@/store/useDesignGardenStore'
@@ -8,11 +9,17 @@ import GardenBed from '@/components/garden-elements/GardenBed'
 import GardenPlant from '@/components/garden-elements/GardenPlant'
 import PreviewBubble from '@/components/garden-elements/PreviewBubble'
 import Character from '@/components/garden-elements/Character'
+import IntroPage from './IntroPage'
 import { ArrowBack } from '@mui/icons-material'
 import Link from 'next/link'
 
 export default function ShakiranPlayground() {
+  const [showIntro, setShowIntro] = useState(true)
   const { components, selectComponent } = useDesignGardenStore()
+
+  if (showIntro) {
+    return <IntroPage onEnterGarden={() => setShowIntro(false)} />
+  }
 
   return (
     <Box
