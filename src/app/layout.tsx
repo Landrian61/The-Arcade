@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
-import ThemeRegistry from "@/theme/registry";
-import "./globals.css";
-import QueryProvider from "@/lib/query-provider";
+import type { Metadata } from 'next'
+import ThemeRegistry from '@/theme/registry'
+import QueryProvider from '@/lib/providers/QueryProvider'
+import './globals.css'
 
 export const metadata: Metadata = {
   title: "The Arcade - Frontend Playground",
@@ -17,8 +17,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        {/*
+          QueryProvider wraps the entire app so any page can use
+          useQuery/useMutation without extra setup. The QueryClient
+          cache is shared across all routes during a session.
+        */}
         <QueryProvider>
-          <ThemeRegistry>{children}</ThemeRegistry>
+          <ThemeRegistry>
+            {children}
+          </ThemeRegistry>
         </QueryProvider>
       </body>
     </html>
