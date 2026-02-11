@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import ThemeRegistry from '@/theme/registry'
+import QueryProvider from '@/lib/providers/QueryProvider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -15,9 +16,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeRegistry>
-          {children}
-        </ThemeRegistry>
+        {/*
+          QueryProvider wraps the entire app so any page can use
+          useQuery/useMutation without extra setup. The QueryClient
+          cache is shared across all routes during a session.
+        */}
+        <QueryProvider>
+          <ThemeRegistry>
+            {children}
+          </ThemeRegistry>
+        </QueryProvider>
       </body>
     </html>
   )
