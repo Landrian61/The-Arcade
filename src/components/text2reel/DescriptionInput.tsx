@@ -53,19 +53,18 @@ export default function DescriptionInput({ onSubmit }: DescriptionInputProps) {
                                 value={field.state.value}
                                 onBlur={field.handleBlur}
                                 onChange={(e) => field.handleChange(e.target.value)}
-                                placeholder="Describe your video idea... (e.g., 'A futuristic tech intro with neon colors')"
-                                className="w-full h-32 bg-black/40 text-[#FFD9CC] p-4 rounded-2xl border border-[#F79A7A]/30 focus:border-[#F79A7A] focus:ring-1 focus:ring-[#F79A7A] outline-none transition-all placeholder:text-gray-600 resize-none font-sans text-lg backdrop-blur-sm"
+                                placeholder="Describe your video idea..."
+                                className="w-full h-24 bg-black/40 text-[#FFD9CC] p-4 rounded-2xl border border-[#F79A7A]/30 focus:border-[#F79A7A] focus:ring-1 focus:ring-[#F79A7A] outline-none transition-all placeholder:text-gray-600 resize-none font-sans text-base backdrop-blur-sm"
                                 disabled={isLoading}
                             />
                             <FieldInfo field={field} />
 
-                            <div className="mt-4 flex flex-wrap gap-2">
-                                <span className="text-xs text-[#F79A7A] uppercase tracking-wider font-extrabold py-1">Try:</span>
+                            <div className="mt-3 flex flex-wrap gap-2">
+                                <span className="text-[10px] text-[#F79A7A] uppercase tracking-wider font-extrabold py-1">Try:</span>
                                 {[
-                                    "A futuristic tech intro with neon colors",
-                                    "A calm nature scene with forests and rain",
-                                    "A high-energy gym workout intro",
-                                    "A spooky halloween intro with pumpkins"
+                                    "A futuristic tech intro",
+                                    "A calm nature scene",
+                                    "A high-energy gym intro",
                                 ].map((prompt) => (
                                     <button
                                         key={prompt}

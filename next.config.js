@@ -5,9 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'image.tmdb.org',
-        port: '',
-        pathname: '**',
+        hostname: 'image.pollinations.ai',
       },
     ],
   },

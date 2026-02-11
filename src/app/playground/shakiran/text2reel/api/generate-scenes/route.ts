@@ -23,17 +23,21 @@ export async function POST(req: Request) {
 
         const systemPrompt = `
       You are a video scene generator. Convert the user's description into a sequence of scenes for a social media video.
-      Return strictly a JSON array of objects with the following schema:
+      Return strictly a JSON array of objects. Do not wrap the JSON in markdown code blocks.
+      JSON Schema:
       [
         {
           "text": "short text overlay (max 5 words)",
           "duration": number (seconds, between 2 and 5),
-          "color": "hex color code (valid 6-digit hex)"
+          "color": "hex color code (valid 6-digit hex)",
+          "icon": "A Material UI Icon name (e.g., RocketLaunch, Restaurant)",
+          "animationStyle": "A JS animation type: 'particles', 'waves', 'gradient-pulse', 'rings', or 'floating-cubes'"
         }
       ]
-      Prefer colors that match the mood of the user's vision.
-
-      Return ONLY the JSON. No conversational text.
+      - animationStyle must be one of the specified types.
+      - icon must be a professional icon name in PascalCase.
+      Prefer colors that match the mood of the video scenes.
+      Return ONLY the raw JSON array.
     `
 
         const chatCompletion = await groq.chat.completions.create({
@@ -42,15 +46,25 @@ export async function POST(req: Request) {
                 { role: 'user', content: prompt }
             ],
             model: 'llama-3.3-70b-versatile',
-            response_format: { type: 'json_object' }
         })
 
-        const responseText = chatCompletion.choices[0]?.message?.content || '[]'
+        let responseText = chatCompletion.choices[0]?.message?.content || '[]'
+
+        // Strip markdown code blocks if present
+        responseText = responseText.replace(/```json/g, '').replace(/```/g, '').trim()
 
         try {
             const data = JSON.parse(responseText)
-            // If the model wraps it in an object like { "scenes": [...] }, extract it
-            const scenes = Array.isArray(data) ? data : (data.scenes || data.video_scenes || [])
+            let scenes = []
+            if (Array.isArray(data)) {
+                scenes = data
+            } else {
+                // If it's an object, find the first array property
+                const arrayKey = Object.keys(data).find(key => Array.isArray(data[key]))
+                if (arrayKey) {
+                    scenes = data[arrayKey]
+                }
+            }
             return NextResponse.json({ scenes })
         } catch (e) {
             console.error('Failed to parse Groq response:', responseText)
