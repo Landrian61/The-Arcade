@@ -204,7 +204,7 @@ export default function IntroPage({ onEnterGarden, initialView = 'intro' }: Intr
                                         <Box sx={{
                                             p: 3,
                                             borderRadius: '24px',
-                                            border: '1px solid rgba(247, 127, 0, 0.3)', // Orange border
+                                            border: '1px solid rgba(247, 154, 122, 0.3)', // Peach border #F79A7A
                                             bgcolor: 'rgba(15, 23, 42, 0.6)',
                                             backdropFilter: 'blur(10px)',
                                             cursor: 'pointer',
@@ -214,16 +214,16 @@ export default function IntroPage({ onEnterGarden, initialView = 'intro' }: Intr
                                             boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
                                             transition: 'all 0.3s ease',
                                             '&:hover': {
-                                                borderColor: '#f77f00',
-                                                boxShadow: '0 0 50px rgba(247, 127, 0, 0.3)',
-                                                bgcolor: 'rgba(247, 127, 0, 0.1)'
+                                                borderColor: '#F79A7A',
+                                                boxShadow: '0 0 50px rgba(247, 154, 122, 0.3)',
+                                                bgcolor: 'rgba(247, 154, 122, 0.1)'
                                             }
                                         }}>
                                             <Box sx={{
                                                 p: 2,
                                                 borderRadius: '16px',
-                                                bgcolor: 'rgba(247, 127, 0, 0.2)',
-                                                color: '#f77f00',
+                                                bgcolor: 'rgba(247, 154, 122, 0.2)',
+                                                color: '#F79A7A',
                                                 display: 'flex',
                                                 alignItems: 'center',
                                                 justifyContent: 'center'

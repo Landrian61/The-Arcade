@@ -54,13 +54,13 @@ export default function DescriptionInput({ onSubmit }: DescriptionInputProps) {
                                 onBlur={field.handleBlur}
                                 onChange={(e) => field.handleChange(e.target.value)}
                                 placeholder="Describe your video idea... (e.g., 'A futuristic tech intro with neon colors')"
-                                className="w-full h-32 bg-[#0f0518] text-white p-4 rounded-xl border border-white/20 focus:border-[#f77f00] focus:ring-1 focus:ring-[#f77f00] outline-none transition-all placeholder:text-gray-600 resize-none font-sans text-lg"
+                                className="w-full h-32 bg-black/40 text-[#FFD9CC] p-4 rounded-2xl border border-[#F79A7A]/30 focus:border-[#F79A7A] focus:ring-1 focus:ring-[#F79A7A] outline-none transition-all placeholder:text-gray-600 resize-none font-sans text-lg backdrop-blur-sm"
                                 disabled={isLoading}
                             />
                             <FieldInfo field={field} />
 
-                            <div className="mt-3 flex flex-wrap gap-2">
-                                <span className="text-xs text-gray-500 uppercase tracking-wider font-bold py-1">Try:</span>
+                            <div className="mt-4 flex flex-wrap gap-2">
+                                <span className="text-xs text-[#F79A7A] uppercase tracking-wider font-extrabold py-1">Try:</span>
                                 {[
                                     "A futuristic tech intro with neon colors",
                                     "A calm nature scene with forests and rain",
@@ -71,7 +71,7 @@ export default function DescriptionInput({ onSubmit }: DescriptionInputProps) {
                                         key={prompt}
                                         type="button"
                                         onClick={() => field.handleChange(prompt)}
-                                        className="text-xs bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 px-3 py-1 rounded-full transition-colors cursor-pointer"
+                                        className="text-xs bg-[#F79A7A]/10 hover:bg-[#F79A7A]/20 border border-[#F79A7A]/20 text-[#FFD9CC] px-4 py-1.5 rounded-full transition-all cursor-pointer hover:scale-105 active:scale-95"
                                     >
                                         {prompt}
                                     </button>
@@ -80,13 +80,18 @@ export default function DescriptionInput({ onSubmit }: DescriptionInputProps) {
                         </div>
                     )}
                 </form.Field>
-                <div className="mt-4 flex justify-end">
+                <div className="mt-6 flex justify-end">
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className="px-6 py-2 bg-[#7c3aed] hover:bg-[#6d28d9] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-lg transition-colors"
+                        className="px-8 py-3 bg-[#F79A7A] hover:bg-[#FBC3AD] active:bg-[#E56F4C] disabled:opacity-50 disabled:cursor-not-allowed text-black font-extrabold rounded-xl transition-all shadow-[0_0_20px_rgba(247,154,122,0.3)] hover:shadow-[0_0_30px_rgba(247,154,122,0.5)] transform hover:-translate-y-0.5"
                     >
-                        {isLoading ? 'Generating Scenes...' : 'Generate Scenes'}
+                        {isLoading ? (
+                            <div className="flex items-center gap-2">
+                                <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                                Generating...
+                            </div>
+                        ) : 'Generate Scenes'}
                     </button>
                 </div>
             </form>
