@@ -18,10 +18,9 @@ export default function ShakiranPlayground() {
     <Box
       sx={{
         minHeight: '100vh',
-        width: '100vw',
+        width: '100%', // Changed from 100vw to avoid potential scrollbar width issues
         position: 'relative',
-        overflowX: 'hidden', // Allow vertical scroll, hide horizontal
-        overflowY: 'auto',
+        overflowX: 'hidden', // Keep this to prevent horizontal scroll from animations
         color: '#fff',
         display: 'flex',
         flexDirection: 'column',

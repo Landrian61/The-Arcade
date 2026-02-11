@@ -150,3 +150,105 @@ export const Navbar = () => {
     )
 }
 `
+
+export const AUTH_MODAL_CODE = `import { useState } from 'react'
+import { Dialog, DialogContent, Box, Tabs, Tab, TextField, Button, alpha } from '@mui/material'
+
+export const AuthModal = ({ variant = 'light' }) => {
+    const [open, setOpen] = useState(false)
+    const [tabValue, setTabValue] = useState(0)
+    const isDark = variant === 'dark'
+
+    const handleTabChange = (_event, newValue) => {
+        setTabValue(newValue)
+    }
+
+    return (
+        <Box sx={{ display: 'inline-block' }}>
+            {/* Trigger Button */}
+            <Button
+                variant="contained"
+                onClick={() => setOpen(true)}
+                sx={{
+                    py: 1.5, px: 4, borderRadius: '12px',
+                    backgroundColor: '#7c3aed',
+                    fontSize: '1rem', fontWeight: 600,
+                    textTransform: 'none',
+                    boxShadow: '0 4px 14px rgba(124, 58, 237, 0.4)',
+                    '&:hover': {
+                        backgroundColor: '#6d28d9',
+                        boxShadow: '0 6px 20px rgba(124, 58, 237, 0.5)',
+                    },
+                }}
+            >
+                Login / Sign Up
+            </Button>
+
+            {/* Modal with Tabs */}
+            <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth
+                PaperProps={{
+                    sx: {
+                        borderRadius: '24px',
+                        background: isDark
+                            ? 'linear-gradient(135deg, rgba(30, 27, 75, 0.98) 0%, rgba(15, 23, 42, 0.98) 100%)'
+                            : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%)',
+                        backdropFilter: 'blur(20px)',
+                        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+                    },
+                }}
+            >
+                <DialogContent sx={{ p: 4 }}>
+                    <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+                        <Tabs value={tabValue} onChange={handleTabChange} centered
+                            sx={{
+                                '& .MuiTab-root': {
+                                    fontSize: '1rem', fontWeight: 500,
+                                    textTransform: 'none', minWidth: 120,
+                                    color: isDark ? alpha('#fff', 0.6) : alpha('#000', 0.6),
+                                    '&.Mui-selected': { color: '#7c3aed', fontWeight: 600 },
+                                },
+                                '& .MuiTabs-indicator': {
+                                    backgroundColor: '#7c3aed', height: 3,
+                                    borderRadius: '3px 3px 0 0',
+                                },
+                            }}
+                        >
+                            <Tab label="Sign In" />
+                            <Tab label="Sign Up" />
+                        </Tabs>
+                    </Box>
+
+                    {/* Sign In Form */}
+                    {tabValue === 0 && (
+                        <Box component="form">
+                            <TextField fullWidth label="Email address" type="email" required
+                                sx={{ mb: 2.5, /* ... styling ... */ }} />
+                            <TextField fullWidth label="Password" type="password" required
+                                sx={{ mb: 3, /* ... styling ... */ }} />
+                            <Button type="submit" fullWidth variant="contained"
+                                sx={{ py: 1.5, borderRadius: '12px', backgroundColor: '#7c3aed' }}>
+                                Sign In
+                            </Button>
+                        </Box>
+                    )}
+
+                    {/* Sign Up Form */}
+                    {tabValue === 1 && (
+                        <Box component="form">
+                            <TextField fullWidth label="Full Name" required sx={{ mb: 2.5 }} />
+                            <TextField fullWidth label="Phone Number (Optional)" sx={{ mb: 2.5 }} />
+                            <TextField fullWidth label="Email address" type="email" required sx={{ mb: 2.5 }} />
+                            <TextField fullWidth label="Password" type="password" required sx={{ mb: 2.5 }} />
+                            <TextField fullWidth label="Confirm Password" type="password" required sx={{ mb: 3 }} />
+                            <Button type="submit" fullWidth variant="contained"
+                                sx={{ py: 1.5, borderRadius: '12px', backgroundColor: '#7c3aed' }}>
+                                Create Account
+                            </Button>
+                        </Box>
+                    )}
+                </DialogContent>
+            </Dialog>
+        </Box>
+    )
+}
+`

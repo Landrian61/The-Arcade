@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, Avatar } from '@mui/material'
 import { motion } from 'framer-motion'
 import { useDesignGardenStore } from '@/store/useDesignGardenStore'
 import { Face2 } from '@mui/icons-material'
@@ -73,14 +73,14 @@ const Character = () => {
                     position: 'relative',
                 }}
             >
-                {/* Character Image */}
-                <Image
-                    src="/images/devkiran.png"
-                    alt="Shakiran Character"
-                    fill
-                    style={{
-                        objectFit: 'contain',
-                        filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.3))'
+                <Avatar
+                    alt="Shakiran"
+                    src="/kiran/devkiran.png"
+                    sx={{
+                        width: '100%',
+                        height: '100%',
+                        // border: '4px solid #fff', // Removed as requested
+                        boxShadow: '0 8px 25px rgba(0,0,0,0.2)'
                     }}
                 />
 
