@@ -5,7 +5,8 @@ import { Close, ContentCopy, Download } from '@mui/icons-material'
 import { useState, useEffect, useRef } from 'react'
 import { ZoomScrollHero } from './ui/ZoomScrollHero'
 import { ScrollNavbar } from './ui/ScrollNavbar'
-import { ZOOM_SCROLL_HERO_CODE, SCROLL_NAVBAR_CODE } from './component-codes'
+import AuthModal from './ui/AuthModal'
+import { ZOOM_SCROLL_HERO_CODE, SCROLL_NAVBAR_CODE, AUTH_MODAL_CODE } from './component-codes'
 
 const PreviewBubble = () => {
     const { activeComponentId, components, selectComponent } = useDesignGardenStore()
@@ -44,6 +45,7 @@ const PreviewBubble = () => {
         // Return actual implementation code for complex components
         if (activeComponent.type === 'hero') return ZOOM_SCROLL_HERO_CODE
         if (activeComponent.type === 'navbar') return SCROLL_NAVBAR_CODE
+        if (activeComponent.type === 'modal') return AUTH_MODAL_CODE
 
         const componentName = activeComponent.name.replace(/\s+/g, '')
         return `import { ${componentName} } from '@/components/ui/${activeComponent.type}s'
@@ -195,6 +197,23 @@ Status: ${activeComponent.isPublished ? 'Published ✅' : 'Draft 🚧'}
                     overflow: 'hidden'
                 }}>
                     <ScrollNavbar variant={currentVersion.variant as any} />
+                </Box>
+            )
+        }
+
+        // Modal component preview
+        if (activeComponent.type === 'modal') {
+            return (
+                <Box sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%',
+                    height: '100%',
+                    minHeight: '600px',
+                    position: 'relative'
+                }}>
+                    <AuthModal variant={currentVersion.variant as any} />
                 </Box>
             )
         }
@@ -452,7 +471,9 @@ Status: ${activeComponent.isPublished ? 'Published ✅' : 'Draft 🚧'}
                                     background: 'rgba(255, 255, 255, 0.95)',
                                     borderRadius: '16px',
                                     padding: 4,
-                                    border: '1px dashed rgba(0, 0, 0, 0.1)'
+                                    border: '1px dashed rgba(0, 0, 0, 0.1)',
+                                    position: 'relative',
+                                    overflow: 'hidden'
                                 }}>
                                     {renderLivePreview()}
                                 </Box>

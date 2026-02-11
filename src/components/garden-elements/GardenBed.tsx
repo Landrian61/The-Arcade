@@ -28,7 +28,7 @@ const GardenBed = ({ children }: { children: React.ReactNode }) => {
                 aspectRatio: '16/10',
                 borderRadius: '32px',
                 overflow: 'hidden',
-                backgroundImage: 'url("/images/garden.png")',
+                backgroundImage: 'url("/kiran/garden.png")',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 boxShadow: '0 20px 80px rgba(0,0,0,0.3)',

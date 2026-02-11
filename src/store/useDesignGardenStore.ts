@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware'
 export interface GardenComponent {
     id: string
     name: string
-    type: 'button' | 'card' | 'badge' | 'switch' | 'hero' | 'navbar'
+    type: 'button' | 'card' | 'badge' | 'switch' | 'hero' | 'navbar' | 'modal'
     versions: {
         id: string
         name: string
@@ -50,6 +50,17 @@ const INITIAL_COMPONENTS: GardenComponent[] = [
             { id: 'v1.0', name: 'Light Mode', variant: 'default' }, // Default
             { id: 'v1.1', name: 'Dark Mode', variant: 'dark' },
         ]
+    },
+    {
+        id: 'modal-01',
+        name: 'Auth Modal',
+        type: 'modal',
+        isPublished: true,
+        position: { x: 70, y: 30 }, // Top right area
+        versions: [
+            { id: 'v1.0', name: 'Light Mode', variant: 'default' },
+            { id: 'v1.1', name: 'Dark Mode', variant: 'dark' },
+        ]
     }
 ]
 
@@ -91,7 +102,7 @@ export const useDesignGardenStore = create<DesignGardenStore>()(
             togglePreview: (isOpen) => set({ isPreviewOpen: isOpen }),
         }),
         {
-            name: 'design-garden-storage-v2', // bump version to load new components
+            name: 'design-garden-storage-v4', // bump version to load new modal component updates
             // Only persist components array (publish status, etc)
             partialize: (state) => ({ components: state.components })
         }
