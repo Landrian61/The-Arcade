@@ -1,4 +1,4 @@
-import { Movie } from "@/types/tmbd";
+import { Movie, MovieDetails } from "@/types/tmbd";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchPopularMovies = async (page: number): Promise<Movie[]> => {
@@ -48,7 +48,18 @@ const fetchTrendingMovies = async (page: number): Promise<Movie[]> => {
   return data.results;
 };
 
-export const useGetMovies = (navPill: string, page: number) => {
+const fetchSearchMovies = async (query: string, page: number): Promise<Movie[]> => {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
+      query,
+    )}&page=${page}&api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
+  );
+  if (!res.ok) throw new Error("Search failed");
+  const data = await res.json();
+  return data.results;
+};
+
+export const useGetMovies = (navPill: string, page: number, query: string = "") => {
   switch (navPill) {
     case "POPULAR MOVIES":
       return useQuery({
@@ -75,10 +86,49 @@ export const useGetMovies = (navPill: string, page: number) => {
         queryKey: ["trending_movies", page],
         queryFn: () => fetchTrendingMovies(page),
       });
+    case "SEARCH":
+      return useQuery({
+        queryKey: ["search_movies", query, page],
+        queryFn: () => fetchSearchMovies(query, page),
+        enabled: !!query,
+      });
     default:
       return useQuery({
         queryKey: ["popular_movies", page],
         queryFn: () => fetchPopularMovies(page),
       });
   }
+};
+
+const fetchMovieDetails = async (id: string): Promise<MovieDetails> => {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
+  );
+  if (!res.ok) throw new Error("Failed to fetch movie details");
+  return res.json();
+};
+
+const fetchRecommendedMovies = async (id: string): Promise<Movie[]> => {
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${process.env.NEXT_PUBLIC_TMDB_API_KEY}`,
+  );
+  if (!res.ok) throw new Error("Failed to fetch recommendations");
+  const data = await res.json();
+  return data.results;
+};
+
+export const useGetMovieDetails = (id: string) => {
+  return useQuery({
+    queryKey: ["movie_details", id],
+    queryFn: () => fetchMovieDetails(id),
+    enabled: !!id,
+  });
+};
+
+export const useGetRecommendedMovies = (id: string) => {
+  return useQuery({
+    queryKey: ["recommended_movies", id],
+    queryFn: () => fetchRecommendedMovies(id),
+    enabled: !!id,
+  });
 };

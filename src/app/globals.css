@@ -157,3 +157,13 @@ body {
     bg-gradient-to-b from-[#a05624] to-[#5e2e16]
     text-[#fff2d6];
 }
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

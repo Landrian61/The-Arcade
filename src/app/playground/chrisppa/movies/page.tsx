@@ -1,98 +1,77 @@
 "use client";
 import MovieCard from "@/components/movie-card/MovieCard";
+import MovieSkeleton from "@/components/movies/MovieSkeleton";
 import { useGetMovies } from "@/hooks/useMovies";
-import Image from "next/image";
-import React, { useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import React from "react";
 
 const Page = () => {
-  const [active, setActive] = useState(0);
-  const [navPill, setNavPill] = useState("POPULAR MOVIES");
-  const [page, setPage] = useState(1);
-  const { data: movies, isPending, isError } = useGetMovies(navPill, page);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const handleNavPill = (item: string, i: number) => {
-    setNavPill(item);
-    setActive(i);
-    setPage(1);
+  const category = searchParams.get("category") || "POPULAR MOVIES";
+  const pageParam = searchParams.get("page") || "1";
+  const query = searchParams.get("query") || "";
+  const page = parseInt(pageParam, 10);
+
+  const { data: movies, isPending, isError } = useGetMovies(category, page, query);
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", newPage.toString());
+    // Preserve category
+    if (category) params.set("category", category);
+    if (query) params.set("query", query);
+    
+    router.push(`?${params.toString()}`);
   };
 
   if (isPending) {
-    return <div>Loading...</div>;
+    return (
+      <div className="grid grid-cols-5 gap-y-10 gap-x-6 mt-32 mb-40 w-full px-10">
+        {[...Array(10)].map((_, i) => (
+          <MovieSkeleton key={i} />
+        ))}
+      </div>
+    );
   }
 
   if (isError) {
-    return <div>Error fetching movies</div>;
+    return (
+      <div className="text-white text-2xl mt-32">Error fetching movies</div>
+    );
   }
 
   return (
-    <div
-      className="relative h-[1400px] flex flex-col items-center justify-start bg-cover bg-center bg-no-repeat"
-      style={{
-        backgroundImage: "url('/images/cris/bg.png')"
-      }}
-    >
-      <Image
-        src="/images/cris/movie_logo2.png"
-        width={350}
-        height={300}
-        alt="movie logo"
-        className="absolute -top-20"
-      />
-
-      <ul className="list-none w-full px-32 pt-8 flex justify-between">
-        <div className="flex gap-8">
-          {["POPULAR MOVIES", "TRENDING", "UPCOMING"].map((item, i) => (
-            <li
-              key={item}
-              onClick={() => handleNavPill(item, i)}
-              className={`nav-pill ${active === i ? "nav-pill-active" : ""}`}
-            >
-              {item}
-            </li>
-          ))}
-        </div>
-
-        <div className="flex gap-8">
-          {["NOW PLAYING", "TOP RATED", "FAVORITES"].map((item, i) => (
-            <li
-              key={item}
-              onClick={() => handleNavPill(item, i + 3)}
-              className={`nav-pill ${
-                active === i + 3 ? "nav-pill-active" : ""
-              }`}
-            >
-              {item}
-            </li>
-          ))}
-        </div>
-      </ul>
-      <div className="grid grid-cols-5 gap-y-10 gap-x-6 mt-32 mb-40">
+    <>
+      <div className="grid grid-cols-5 gap-y-10 gap-x-6 mt-32 mb-40 w-full px-10">
         {movies?.slice(0, 10).map((movie) => (
           <MovieCard
             key={movie.id}
             title={movie.title.slice(0, 20) + "..."}
             description={movie.overview.slice(0, 100) + "..."}
             imageUrl={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-            href={`/movie/${movie.id}`}
+            href={`/playground/chrisppa/movies/${movie.id}`}
           />
         ))}
       </div>
-      <div className="flex gap-4">
+      <div className="flex gap-4 mb-32">
         <button
-          onClick={() => setPage((prev) => prev - 1)}
+          onClick={() => handlePageChange(page - 1)}
           disabled={page === 1}
-          className="nav-pill nav-pill-active disabled:opacity-50 disabled:cursor-not-allowed"
+          className="nav-pill nav-pill-active disabled:opacity-50 disabled:cursor-not-allowed px-6 py-2"
         >
           Previous
         </button>
+        <span className="text-white self-center text-xl font-bold border-none">{page}</span>
         <button
-          onClick={() => setPage((prev) => prev + 1)}
-          className="nav-pill"
+          onClick={() => handlePageChange(page + 1)}
+          className="nav-pill px-6 py-2 border-none"
         >
           Next
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
