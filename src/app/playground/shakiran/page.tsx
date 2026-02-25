@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { Box, Container, Typography } from '@mui/material'
 import { useArcadeStore } from '@/store/useArcadeStore'
 import { useDesignGardenStore } from '@/store/useDesignGardenStore'
@@ -8,20 +9,27 @@ import GardenBed from '@/components/garden-elements/GardenBed'
 import GardenPlant from '@/components/garden-elements/GardenPlant'
 import PreviewBubble from '@/components/garden-elements/PreviewBubble'
 import Character from '@/components/garden-elements/Character'
+import IntroPage from './IntroPage'
 import { ArrowBack } from '@mui/icons-material'
 import Link from 'next/link'
 
 export default function ShakiranPlayground() {
+  const [showIntro, setShowIntro] = useState(true)
   const { components, selectComponent } = useDesignGardenStore()
+
+  const [introInitialView, setIntroInitialView] = useState<'intro' | 'projects'>('intro')
+
+  if (showIntro) {
+    return <IntroPage onEnterGarden={() => setShowIntro(false)} initialView={introInitialView} />
+  }
 
   return (
     <Box
       sx={{
         minHeight: '100vh',
-        width: '100vw',
+        width: '100%', // Changed from 100vw to avoid potential scrollbar width issues
         position: 'relative',
-        overflowX: 'hidden', // Allow vertical scroll, hide horizontal
-        overflowY: 'auto',
+        overflowX: 'hidden', // Keep this to prevent horizontal scroll from animations
         color: '#fff',
         display: 'flex',
         flexDirection: 'column',
@@ -122,9 +130,14 @@ export default function ShakiranPlayground() {
           }}>
             <Character />
 
-            {/* Back to Arcade Button */}
-            <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <Box sx={{
+            {/* Back to Projects Button */}
+            <Box
+              onClick={() => {
+                setIntroInitialView('projects')
+                setShowIntro(true)
+              }}
+              sx={{
+                cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 1,
@@ -138,18 +151,18 @@ export default function ShakiranPlayground() {
                   transform: 'translateY(-2px)',
                   background: 'linear-gradient(135deg, #ffd166 0%, #fcbf49 100%)' // Lighter yellow hover
                 }
+              }}
+            >
+              <ArrowBack fontSize="small" sx={{ color: '#31004a' }} />
+              <Typography variant="button" sx={{
+                fontWeight: 'bold',
+                letterSpacing: 1,
+                fontSize: '0.85rem',
+                color: '#31004a' // Purple text
               }}>
-                <ArrowBack fontSize="small" sx={{ color: '#31004a' }} />
-                <Typography variant="button" sx={{
-                  fontWeight: 'bold',
-                  letterSpacing: 1,
-                  fontSize: '0.85rem',
-                  color: '#31004a' // Purple text
-                }}>
-                  Back to Arcade
-                </Typography>
-              </Box>
-            </Link>
+                Back to Projects
+              </Typography>
+            </Box>
           </Box>
         </Box>
 
