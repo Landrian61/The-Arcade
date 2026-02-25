@@ -2,9 +2,10 @@
 
 import { useArcadeStore } from '@/store/useArcadeStore'
 import { Box, Container, Typography, Fab, Card, CardContent, Button, useTheme, alpha, Tabs, Tab, Avatar, Chip } from '@mui/material'
-import { FormatPaint, MusicNote, VolumeUp, Favorite, Code, Brush, Psychology, Lightbulb, Refresh, SportsEsports } from '@mui/icons-material'
+import { FormatPaint, MusicNote, Favorite, Code, Brush, Psychology, Lightbulb, Refresh, SportsEsports, Movie } from '@mui/icons-material'
 import { useState, useEffect } from 'react'
 import { keyframes } from '@mui/system'
+import MovieBrowser from './components/MovieBrowser'
 
 // Animations
 const float = keyframes`
@@ -26,9 +27,10 @@ const glitchFont = 'var(--font-rubik-glitch)'
 export default function LandrianPage() {
   // ZUSTAND: Destructuring state and actions from our store
   const { arcadeScore, incrementScore, quotes, currentQuoteIndex, nextQuote } = useArcadeStore()
-  
+
   const [sprayActive, setSprayActive] = useState(false)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const [activeTab, setActiveTab] = useState(0)
   const theme = useTheme()
 
   // Mouse parallax effect
@@ -105,7 +107,45 @@ export default function LandrianPage() {
       />
 
       <Container maxWidth="xl" sx={{ pt: 10, pb: 12, position: 'relative', zIndex: 1, px: { xs: 2, md: 6 } }}>
-        
+
+        {/* ── Tab Navigation ── */}
+        <Tabs
+          value={activeTab}
+          onChange={(_, val: number) => setActiveTab(val)}
+          sx={{
+            mb: 6,
+            borderBottom: '2px solid rgba(247,127,0,0.3)',
+            '& .MuiTabs-indicator': { bgcolor: '#f77f00', height: 3 },
+            '& .MuiTab-root': {
+              color: 'rgba(234,226,183,0.5)',
+              fontFamily: graffitiFont,
+              fontSize: '1rem',
+              textTransform: 'none',
+              '&.Mui-selected': { color: '#fcbf49' },
+            },
+          }}
+        >
+          <Tab label="Playground" icon={<SportsEsports />} iconPosition="start" />
+          <Tab label="Movie Vault" icon={<Movie />} iconPosition="start" />
+        </Tabs>
+
+        {/* ── Movie Vault Tab ── */}
+        {activeTab === 1 && (
+          <Box
+            sx={{
+              background: 'rgba(0,16,28,0.7)',
+              backdropFilter: 'blur(16px)',
+              border: '1px solid rgba(247,127,0,0.3)',
+              borderRadius: 4,
+              p: { xs: 3, md: 4 },
+            }}
+          >
+            <MovieBrowser />
+          </Box>
+        )}
+
+        {/* ── Playground Tab ── */}
+        {activeTab === 0 && (
         <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '350px 1fr' }, gap: 6 }}>
           
           {/* LEFT COLUMN: Profile & Bio */}
@@ -286,6 +326,7 @@ export default function LandrianPage() {
 
           </Box>
         </Box>
+        )} {/* end activeTab === 0 */}
 
         {/* Floating Actions */}
         <Box
