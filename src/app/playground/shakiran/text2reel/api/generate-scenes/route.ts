@@ -6,8 +6,6 @@ const RequestSchema = z.object({
     prompt: z.string().min(1),
 })
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
-
 export async function POST(req: Request) {
     try {
         const body = await req.json()
@@ -20,6 +18,8 @@ export async function POST(req: Request) {
                 { status: 500 }
             )
         }
+
+        const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
         const systemPrompt = `
       You are a video scene generator. Convert the user's description into a sequence of scenes for a social media video.
