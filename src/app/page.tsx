@@ -44,6 +44,14 @@ const players = [
     color: '#00ff00',
     icon: <BugReport sx={{ fontSize: 40 }} />
   },
+
+  {
+    name: 'Martha',
+    route: '/playground/martha',
+    description: 'Debug the invasion! Classic retro shooter.',
+    color: '#00ff00',
+    icon: <BugReport sx={{ fontSize: 40 }} />
+  },
   {
     name: 'Landrian',
     route: '/playground/landrian',
