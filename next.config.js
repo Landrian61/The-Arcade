@@ -4,18 +4,19 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'image.pollinations.ai',
+        protocol: "https",
+        hostname: "image.tmdb.org",
+        port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "image.pollinations.ai",
+        port: "",
+        pathname: "**",
       },
     ],
   },
-}
+};
 
-module.exports = nextConfig
-
-
-
-
-
-
-
+module.exports = nextConfig;
