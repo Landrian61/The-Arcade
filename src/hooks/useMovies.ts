@@ -60,44 +60,42 @@ const fetchSearchMovies = async (query: string, page: number): Promise<Movie[]> 
 };
 
 export const useGetMovies = (navPill: string, page: number, query: string = "") => {
+  let queryKey: (string | number)[] = ["popular_movies", page];
+  let queryFn: () => Promise<Movie[]> = () => fetchPopularMovies(page);
+  let enabled = true;
+
   switch (navPill) {
     case "POPULAR MOVIES":
-      return useQuery({
-        queryKey: ["popular_movies", page],
-        queryFn: () => fetchPopularMovies(page),
-      });
+      queryKey = ["popular_movies", page];
+      queryFn = () => fetchPopularMovies(page);
+      break;
     case "TOP RATED":
-      return useQuery({
-        queryKey: ["top_rated_movies", page],
-        queryFn: () => fetchTopRatedMovies(page),
-      });
+      queryKey = ["top_rated_movies", page];
+      queryFn = () => fetchTopRatedMovies(page);
+      break;
     case "UPCOMING":
-      return useQuery({
-        queryKey: ["upcoming_movies", page],
-        queryFn: () => fetchUpcomingMovies(page),
-      });
+      queryKey = ["upcoming_movies", page];
+      queryFn = () => fetchUpcomingMovies(page);
+      break;
     case "NOW PLAYING":
-      return useQuery({
-        queryKey: ["now_playing_movies", page],
-        queryFn: () => fetchNowPlayingMovies(page),
-      });
+      queryKey = ["now_playing_movies", page];
+      queryFn = () => fetchNowPlayingMovies(page);
+      break;
     case "TRENDING":
-      return useQuery({
-        queryKey: ["trending_movies", page],
-        queryFn: () => fetchTrendingMovies(page),
-      });
+      queryKey = ["trending_movies", page];
+      queryFn = () => fetchTrendingMovies(page);
+      break;
     case "SEARCH":
-      return useQuery({
-        queryKey: ["search_movies", query, page],
-        queryFn: () => fetchSearchMovies(query, page),
-        enabled: !!query,
-      });
+      queryKey = ["search_movies", query, page];
+      queryFn = () => fetchSearchMovies(query, page);
+      enabled = !!query;
+      break;
     default:
-      return useQuery({
-        queryKey: ["popular_movies", page],
-        queryFn: () => fetchPopularMovies(page),
-      });
+      // Defaults already set to popular
+      break;
   }
+
+  return useQuery({ queryKey, queryFn, enabled });
 };
 
 const fetchMovieDetails = async (id: string): Promise<MovieDetails> => {
