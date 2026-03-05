@@ -5,7 +5,7 @@ import { VideoComposition } from './VideoComposition'
 import { useText2ReelStore, Scene } from '@/store/useText2ReelStore'
 import { Download } from '@mui/icons-material'
 
-export default function VideoPreview() {
+export default function VideoPreview({ objectFit = 'contain' }: { objectFit?: 'contain' | 'cover' }) {
     const { scenes } = useText2ReelStore()
 
     // Calculate total duration
@@ -31,7 +31,7 @@ export default function VideoPreview() {
                         style={{
                             width: '100%',
                             height: '100%',
-                            objectFit: 'contain',
+                            objectFit,
                         }}
                         controls
                         autoPlay={false}
